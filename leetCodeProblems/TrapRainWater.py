@@ -40,6 +40,7 @@ class TrapRW(object):
         return watReserve
          
 if __name__ == '__main__':
+    #object of TrapRW class
     obj = TrapRW()
     hightOfBuildings = [0,1,0,2,1,0,1,3,2,1,2,1]
     print "total trapped water reservior =" ,obj.totalRainWater(hightOfBuildings)
