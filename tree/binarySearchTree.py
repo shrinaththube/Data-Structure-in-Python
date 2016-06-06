@@ -1,7 +1,7 @@
 '''
 Created on Jun 5, 2016
 
-@author: Shrinath
+@author: Shrinath Thube
 '''
 
 class BstNode(object):
