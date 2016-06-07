@@ -59,6 +59,7 @@ class BstOperations(object):
         if refNode == None:
             print "Tree is not formed yet"
             return
+        print
         print "******************* Displaying Tree *********************"
         print "Inorder - ",
         self.printInorder(refNode)
@@ -70,6 +71,7 @@ class BstOperations(object):
         self.printPostorder(refNode)
         print 
         print "******************* End *********************"
+        print
     
     def createBst(self,list_key):
         if len(list_key) == 0:
@@ -77,6 +79,52 @@ class BstOperations(object):
             return 
         for key in list_key:
             self.insertNode(key, self.root)
+
+
+class BstExtrafunctions(BstOperations):
+        
+    def __init__(self):
+        self.preIndex = 0
+        self.postIndex = 0
+        
+    """ Create tree using inorder traversal list and preorder traversal list. Root is first element in preorder list"""
+    def createTreeFromInPreOrder(self,inList,preList,inStart, inLast):
+        
+        if inStart > inLast or len(preList) == self.preIndex: return None
+        
+        #print inList, preList
+        rEle = preList[self.preIndex]
+        self.preIndex +=1
+        rootNode = BstNode(rEle)
+        
+        if inStart == inLast:
+            return rootNode
+        
+        partPoint = inList.index(rEle)
+        rootNode.lChild = self.createTreeFromInPreOrder(inList,preList,inStart,partPoint-1)
+        rootNode.rChild = self.createTreeFromInPreOrder(inList,preList,partPoint+1,inLast)
+        
+        return rootNode
+    
+    """ Create tree using inorder traversal list and postorder traversal list. Root is last element in postorder list"""
+    def createTreeFromInPostOrder(self,inList,postList,inStart,inLast):
+        
+        if inStart > inLast or len(postList)==self.postIndex: return
+        
+        #Array is scan in reverse order
+        rEle = postList[len(postList)-1-self.postIndex]
+        self.postIndex +=1
+        rootNode = BstNode(rEle)
+        
+        if inStart == inLast:
+            return rootNode
+        
+        partPoint = inList.index(rEle)
+        #Sequence is important First call right subtree then left
+        rootNode.rChild = self.createTreeFromInPostOrder(inList, postList, partPoint+1, inLast)
+        rootNode.lChild = self.createTreeFromInPostOrder(inList, postList, inStart, partPoint-1)
+        
+        return rootNode
 
 def main():
     tree1 = BstOperations()
