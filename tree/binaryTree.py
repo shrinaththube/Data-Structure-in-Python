@@ -77,6 +77,27 @@ class BTOperations(object):
             return self.isTreeMirror(root1.rChild, root2.lChild)
         
         return True #Default returns true
+    
+    ''' This method make the tree mirror to its original structure '''
+    def makeMirrorTree(self,refNode):
+        if refNode == None: return # recursion breaking condition
+        
+        # Swap left and right child from root to leaf
+        if refNode.lChild != None and refNode.rChild != None: 
+            tempNode = refNode.lChild
+            refNode.lChild = refNode.rChild
+            refNode.rChild = tempNode
+        
+        elif refNode.lChild != None:
+            refNode.rChild = refNode.lChild
+            
+        elif refNode.rChild != None:
+            refNode.lChild = refNode.rChild
+            
+        self.makeMirrorTree(refNode.lChild) # recursive call to left subtree
+        self.makeMirrorTree(refNode.rChild) # recursive call to right subtree
+        
+    
         
 BTree1 = BTOperations()
 BTree1.root = BTNode(1)
@@ -86,13 +107,18 @@ BTree1.root.rChild.lChild = BTNode(5)
 BTree1.root.rChild.rChild = BTNode(4)
 BTree1.displayTree(BTree1.root)
 
-
 BTree2 = BTOperations()
 BTree2.root = BTNode(1)
 BTree2.root.lChild = BTNode(2)
-#BTree2.root.rChild = BTNode(3)
+BTree2.root.rChild = BTNode(3)
 BTree2.root.lChild.rChild = BTNode(5)
 BTree2.root.lChild.lChild = BTNode(4)
 BTree2.displayTree(BTree2.root)
 
-print BTree1.isTreeMirror(BTree1.root, BTree2.root)
+print"BTree1 is mirror of BTree2 - ", BTree1.isTreeMirror(BTree1.root, BTree2.root)
+
+print "Making BTree1 to its mirror - SO BTree1 = BTree2"
+
+BTree1.makeMirrorTree(BTree1.root)
+
+BTree1.displayTree(BTree1.root)
