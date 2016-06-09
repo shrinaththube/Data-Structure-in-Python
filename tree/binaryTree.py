@@ -35,8 +35,9 @@ class BTOperations(object):
         self.printPostorder(refNode.lChild)
         self.printPostorder(refNode.rChild)
         print refNode.key,
-    @staticmethod
-    def displayTree(self,refNode):
+        
+    @staticmethod 
+    def displayTree(self,refNode): #Static method can be called by class name
         if refNode == None:
             print "Tree is not formed yet"
             return
@@ -106,41 +107,63 @@ class BTOperations(object):
         if refNode.lChild == None and refNode.rChild == None: #return leaf node - breaking condition
             return rootNode
         
-        rootNode.lChild = self.createNewMirrorTree(refNode.lChild) #recursive call
-        rootNode.rChild = self.createNewMirrorTree(refNode.rChild) #recursive call
+        rootNode.lChild = self.createNewMirrorTree(refNode.rChild) #recursive call
+        rootNode.rChild = self.createNewMirrorTree(refNode.lChild) #recursive call
         
         return rootNode #returns root of new tree
     
+    ''' Check are two trees similar or not - Default returns true'''
+    def areTwoTreeSimilar(self,root1,root2):
+        if root1 == None and root2 == None: return
         
-BTree1 = BTOperations()
-BTree1.root = BTNode(1)
-BTree1.root.lChild = BTNode(3)
-BTree1.root.rChild = BTNode(2)
-BTree1.root.rChild.lChild = BTNode(5)
-BTree1.root.rChild.rChild = BTNode(4)
-print"BTree1 -"
-BTree1.displayTree(BTree1,BTree1.root)
+        if root1 == None or root2 == None: return False
+        if root1.key != root2.key: return False
+        
+        print root1.key,
+        return self.areTwoTreeSimilar(root1.lChild, root2.lChild) and self.areTwoTreeSimilar(root1.rChild, root2.rChild)
+        
+        return True
+        
+def main():
+    
+    BTree1 = BTOperations()
+    BTree1.root = BTNode(1)
+    BTree1.root.lChild = BTNode(3)
+    BTree1.root.rChild = BTNode(2)
+    BTree1.root.rChild.lChild = BTNode(5)
+    BTree1.root.rChild.rChild = BTNode(4)
+    print"BTree1 -"
+    BTree1.displayTree(BTree1,BTree1.root)
+    
+    BTree2 = BTOperations()
+    BTree2.root = BTNode(1)
+    BTree2.root.lChild = BTNode(2)
+    BTree2.root.rChild = BTNode(3)
+    BTree2.root.lChild.rChild = BTNode(5)
+    BTree2.root.lChild.lChild = BTNode(4)
+    print"BTree2 -"
+    BTree2.displayTree(BTree2,BTree2.root)
+    
+    print"BTree1 is mirror of BTree2 - ", BTree1.isTreeMirror(BTree1.root, BTree2.root)
+    
+    print "Making BTree1 to its mirror - SO BTree1 = BTree2"
+    
+    #BTree1.makeMirrorTree(BTree1.root)
+    
+    BTree1.displayTree(BTree1,BTree1.root)
+    
+    ''' Construct BTree3 as a mirror of BTree1'''
+    print "Construct BTree3 as a mirror of BTree1"
+    BTree3 = BTOperations()
+    BTree3.root = BTree3.createNewMirrorTree(BTree1.root)
+    print"BTree3 -"
+    BTree3.displayTree(BTree3,BTree3.root)
+    
+    
+    ''' Checking trees are similar'''
+    
+    print "Are this trees similar - " ,BTree3.areTwoTreeSimilar(BTree3.root,BTree3.root)
+    print "Are this trees similar - " ,BTree3.areTwoTreeSimilar(BTree3.root,BTree1.root)
 
-BTree2 = BTOperations()
-BTree2.root = BTNode(1)
-BTree2.root.lChild = BTNode(2)
-BTree2.root.rChild = BTNode(3)
-BTree2.root.lChild.rChild = BTNode(5)
-BTree2.root.lChild.lChild = BTNode(4)
-print"BTree2 -"
-BTree2.displayTree(BTree2,BTree2.root)
-
-print"BTree1 is mirror of BTree2 - ", BTree1.isTreeMirror(BTree1.root, BTree2.root)
-
-print "Making BTree1 to its mirror - SO BTree1 = BTree2"
-
-BTree1.makeMirrorTree(BTree1.root)
-
-BTree1.displayTree(BTree1,BTree1.root)
-
-''' Construct BTree3 as a mirror of BTree1'''
-print "Construct BTree3 as a mirror of BTree1"
-BTree3 = BTOperations()
-BTree3.root = BTree3.createNewMirrorTree(BTree1.root)
-print"BTree3 -"
-BTree3.displayTree(BTree3,BTree3.root)
+if __name__ == '__main__':
+    main()

@@ -4,6 +4,7 @@ Created on Jun 5, 2016
 @author: Shrinath Thube
 '''
 from tree.binarySearchTree import BstOperations,BstExtrafunctions
+from tree.binaryTree import BTOperations
 
 """ Testing of BstOperations class"""
 
@@ -12,16 +13,17 @@ print "*** --- > Creating Binary search tree1 using createBst method"
 tree1 = BstOperations()
 test_list1 = [13,8,17,5,10,22,15]
 tree1.createBst(test_list1)
-tree1.displayTree(tree1.root)
+BTOperations.displayTree(tree1,tree1.root)
 
 #Create tree2 and try to display without creating
 print "*** --- > Creating Binary search tree2 using createBst method"
 tree2 = BstOperations()
 test_list2 = [10,5,15,20,2,7,13]
-tree2.displayTree(tree2.root)
+BTOperations.displayTree(tree2,tree2.root)
 #After creating display
 tree2.createBst(test_list2)
-tree2.displayTree(tree2.root)
+BTOperations.displayTree(tree2,tree2.root)
+
 
 
 """ Testing of BstExtrafunctions class"""
@@ -36,16 +38,17 @@ postL = ['D', 'E', 'B', 'F', 'C', 'A']
 print "*** --- > Creating Binary tree1 using inorder and preorder list "
 tree3 = BstExtrafunctions()
 tree3.root = tree3.createTreeFromInPreOrder(inL,preL,0,len(inL)-1) 
-tree3.displayTree(tree3.root)
+BTOperations.displayTree(tree3,tree3.root)
 
 #Make tree using inorder and postorder traversal list
 print "*** --- > Creating Binary tree1 using inorder and postorder list "
 tree4 = BstExtrafunctions()
 tree4.root = tree4.createTreeFromInPostOrder(inL, postL, 0, len(inL)-1)
-tree4.displayTree(tree4.root)
+BTOperations.displayTree(tree4,tree4.root)
 
 #Make tree using inorder and preorder traversal list
 print "*** --- > Creating Binary tree1 using inorder and preorder list "
 tree5 = BstExtrafunctions()
 tree5.root = tree5.createTreeFromInPreOrder(inLNum,preLNum,0,len(inL)-1) 
-tree5.displayTree(tree5.root)
+BTOperations.displayTree(tree5,tree5.root)
+
