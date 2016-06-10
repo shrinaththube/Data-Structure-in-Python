@@ -3,9 +3,17 @@ Created on Jun 5, 2016
 
 @author: Shrinath Thube
 '''
+from __future__ import division
+''' __future__ is a pseudo-module which programmers can use to enable new language features 
+which are not compatible with the current interpreter.( -- From stackoverflow)
+This is import to make division of two interger as float e.g. 5/10 = 0.5 without this it was 0.
+It must imported at beginning of file
+'''
 
 from tree.binaryTree import BTOperations
 from tree.binaryTree import BTNode
+
+
 
 class BstOperations(BTOperations):
     '''
@@ -122,6 +130,40 @@ class BstExtrafunctions(BstOperations):
         
         return max(self.findMinSumPathSum(refNode.lChild),self.findMaxSumPathSum(refNode.rChild)) + refNode.key
     
+    ''' Returns height or depth of tree - longest path between root and leaf'''
+    def findHeightOfTree(self,refNode):
+        if refNode == None: return 0
+        elif refNode.lChild == None:
+            return self.findHeightOfTree(refNode.rChild) + 1
+        elif refNode.rChild == None:
+            return self.findHeightOfTree(refNode.lChild) + 1
+        return max(self.findHeightOfTree(refNode.lChild),self.findHeightOfTree(refNode.rChild))+1
+    
+    ''' Returns size ( count of nodes ) of tree
+        Number of technics to find size 
+        1) Use the following method - count nodes recursively for left subtree and right subtree and add it with root
+        2) Traverse tree using any method (In , pre, post order and make one global or instance variable and increment it. 
+    '''
+    def findSizeOfTree(self,refNode):
+        #global size #for second method
+        if refNode == None: return 0
+        elif refNode.rChild == None:
+            return self.findSizeOfTree(refNode.lChild) + 1
+        elif refNode.lChild == None:
+            return self.findSizeOfTree(refNode.rChild) +1
+        #size += 1 # for second method
+        #print size, # print debugging for second method
+        return self.findSizeOfTree(refNode.lChild) + self.findSizeOfTree(refNode.rChild) +1 
+    
+    ''' Density = (height of tree/size of tree) 
+        1) Can call separate two functions as per following method and calculate density
+        2) Can calculate size making size variable global and calculate at calling end
+        Advantage of second approach is - do not need to traverse tree twice
+    '''
+    def findDensityOfTree(self,refNode):
+        if refNode == None: return 0
+        return (self.findHeightOfTree(refNode)/self.findSizeOfTree(refNode))
+    
     ''' Does not working..... Finding the bug
     def createFullBinTreeFromPrePostOrder(self,preList,postList,postStart,postLast):
         if postStart > postLast or len(preList) == self.preIndex :
@@ -161,11 +203,11 @@ tree5.root = tree5.createFullBinTreeFromPrePostOrder(preL, postL, 1, len(postL)-
 tree5.displayTree(tree5.root)
 '''
         
-        
+size =0
 def main():
     tree1 = BstOperations()
     tree2 = BstExtrafunctions()
-    tree2.createBst([10,15,7,8,13,18])
+    tree2.createBst([10,15,6,7,3,2,8,9,13,18])
     tree1.insertNode(10, tree1.root)
     tree1.insertNode(15, tree1.root)
     tree1.insertNode(5, tree1.root)
@@ -175,6 +217,8 @@ def main():
     
     # USe of findMinSumPathSum method
     print "sum = ", tree2.findMinSumPathSum(tree2.root)
-    
+    print "Height of tree2 = ", tree2.findHeightOfTree(tree2.root)
+    print "size of tree2 = ", tree2.findSizeOfTree(tree2.root)
+    print "Density of tree2 = ", tree2.findDensityOfTree(tree2.root) 
 if __name__ == '__main__':
     main()
