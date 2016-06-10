@@ -164,6 +164,27 @@ class BstExtrafunctions(BstOperations):
         if refNode == None: return 0
         return (self.findHeightOfTree(refNode)/self.findSizeOfTree(refNode))
     
+    ''' pushing odd keys down towards leaf of tree and making even keys parents'''
+    def sinkOddNodesInBT(self,refNode):
+        if refNode == None: return
+        
+        if refNode.key % 2 !=0: # this is primary condition to check very important
+            if refNode.lChild != None and refNode.lChild.key % 2 == 0:
+                temp = refNode.key
+                refNode.key = refNode.lChild.key
+                refNode.lChild.key = temp
+                self.sinkOddNodesInBT(refNode.lChild)
+                
+            elif refNode.rChild != None and refNode.rChild.key % 2 == 0:
+                temp = refNode.key
+                refNode.key = refNode.rChild.key
+                refNode.rChild.key = temp
+                self.sinkOddNodesInBT(refNode.rChild)
+        
+        self.sinkOddNodesInBT(refNode.lChild)
+        self.sinkOddNodesInBT(refNode.rChild)    
+        
+    
     ''' Does not working..... Finding the bug
     def createFullBinTreeFromPrePostOrder(self,preList,postList,postStart,postLast):
         if postStart > postLast or len(preList) == self.preIndex :
@@ -207,7 +228,7 @@ size =0
 def main():
     tree1 = BstOperations()
     tree2 = BstExtrafunctions()
-    tree2.createBst([10,15,6,7,3,2,8,9,13,18])
+    tree2.createBst([10,15,6,7,3,2,8,9,13,18,19])
     tree1.insertNode(10, tree1.root)
     tree1.insertNode(15, tree1.root)
     tree1.insertNode(5, tree1.root)
@@ -219,6 +240,8 @@ def main():
     print "sum = ", tree2.findMinSumPathSum(tree2.root)
     print "Height of tree2 = ", tree2.findHeightOfTree(tree2.root)
     print "size of tree2 = ", tree2.findSizeOfTree(tree2.root)
-    print "Density of tree2 = ", tree2.findDensityOfTree(tree2.root) 
+    print "Density of tree2 = ", tree2.findDensityOfTree(tree2.root)
+    tree2.sinkOddNodesInBT(tree2.root)
+    BTOperations.displayTree(tree2, tree2.root) 
 if __name__ == '__main__':
     main()
