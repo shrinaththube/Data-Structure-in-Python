@@ -40,6 +40,7 @@ class BstOperations(BTOperations):
 class BstExtrafunctions(BstOperations):
         
     def __init__(self):
+        super(BstExtrafunctions,self).__init__() #it is for using root of the parent
         self.preIndex = 0
         self.postIndex = 0
         
@@ -81,7 +82,47 @@ class BstExtrafunctions(BstOperations):
         rootNode.lChild = self.createTreeFromInPostOrder(inList, postList, inStart, partPoint-1)
         
         return rootNode
-    '''
+    
+    ''' Returns the sum of min path sum '''
+    def findMinSumPathSum(self,refNode):
+        if refNode == None:
+            #print None, #print for debugging 
+            return 0 # recursion breaking condition
+        elif refNode.rChild == None:
+            """ #print for debugging
+            print refNode.key,
+            s = self.findMinSumPathSum(refNode.lChild) + refNode.key
+            print "returned s- ", s
+            return s"""
+            return self.findMinSumPathSum(refNode.lChild) + refNode.key
+        elif refNode.lChild == None:
+            """ #print for debugging
+            print refNode.key,
+            a = self.findMinSumPathSum(refNode.rChild) + refNode.key
+            print "returned a- ", a
+            return a"""
+            return self.findMinSumPathSum(refNode.rChild) + refNode.key
+       
+        """ #print for debugging
+        print refNode.key,
+        t = min(self.findMinSumPathSum(refNode.lChild),self.findMinSumPathSum(refNode.rChild))+refNode.key
+        print "returned t - ", t
+        return t """
+        return min(self.findMinSumPathSum(refNode.lChild),self.findMinSumPathSum(refNode.rChild))+refNode.key
+    
+    ''' Returns the sum of maximum path sum... Similar as abouve minimum sum path's sum'''
+    def findMaxSumPathSum(self,refNode):
+        if refNode == None: return 0
+        
+        elif refNode.rChild == None:
+            return self.findMaxSumPathSum(refNode.lChild) + refNode.key
+        
+        elif refNode.lChild == None:
+            return self.findMaxSumPathSum(refNode.rChild) + refNode.key
+        
+        return max(self.findMinSumPathSum(refNode.lChild),self.findMaxSumPathSum(refNode.rChild)) + refNode.key
+    
+    ''' Does not working..... Finding the bug
     def createFullBinTreeFromPrePostOrder(self,preList,postList,postStart,postLast):
         if postStart > postLast or len(preList) == self.preIndex :
             print "braking condition ", postStart, postLast , postList[postStart:postLast+2], self.postIndex 
@@ -123,8 +164,8 @@ tree5.displayTree(tree5.root)
         
 def main():
     tree1 = BstOperations()
-    tree2 = BstOperations()
-    tree2.createBst([10,15,7,3,8,13,18])
+    tree2 = BstExtrafunctions()
+    tree2.createBst([10,15,7,8,13,18])
     tree1.insertNode(10, tree1.root)
     tree1.insertNode(15, tree1.root)
     tree1.insertNode(5, tree1.root)
@@ -132,6 +173,8 @@ def main():
     BTOperations.displayTree(tree2, tree2.root)
     BTOperations.displayTree(tree1, tree1.root)
     
+    # USe of findMinSumPathSum method
+    print "sum = ", tree2.findMinSumPathSum(tree2.root)
     
 if __name__ == '__main__':
     main()
