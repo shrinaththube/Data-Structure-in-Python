@@ -3,6 +3,9 @@ Created on Jun 8, 2016
 
 @author: Shrinath Thube
 '''
+from _collections import deque
+from test._mock_backport import right
+
 class BTNode(object):
     '''
     This is binary tree node contains key, reference to left and right child
@@ -35,7 +38,23 @@ class BTOperations(object):
         self.printPostorder(refNode.lChild)
         self.printPostorder(refNode.rChild)
         print refNode.key,
-        
+     
+    ''' Print tree in level wise '''   
+    def printLevelOrder(self,refNode):
+        if refNode == None: return
+        que =  [refNode]
+        while len(que)>0:
+            temp_que = list()
+            for node in que:
+                print node.key,
+                if node.lChild !=None:
+                    temp_que.append(node.lChild)
+                if node.rChild != None:
+                    temp_que.append(node.rChild)
+            print
+            que = temp_que
+            
+            
     @staticmethod 
     def displayTree(self,refNode): #Static method can be called by class name
         if refNode == None:
@@ -43,6 +62,8 @@ class BTOperations(object):
             return
         print
         print "******************* Displaying Tree *********************"
+        print "Level order - ",
+        self.printLevelOrder(refNode)
         print "Inorder - ",
         self.printInorder(refNode)
         print
@@ -114,15 +135,77 @@ class BTOperations(object):
     
     ''' Check are two trees similar or not - Default returns true'''
     def areTwoTreeSimilar(self,root1,root2):
-        if root1 == None and root2 == None: return
-        
+        if root1 == None and root2 == None: return True
         if root1 == None or root2 == None: return False
         if root1.key != root2.key: return False
-        
-        print root1.key,
-        return self.areTwoTreeSimilar(root1.lChild, root2.lChild) and self.areTwoTreeSimilar(root1.rChild, root2.rChild)
-        
-        return True
+        return self.areTwoTreeSimilar(root1.lChild, root2.lChild) and self.areTwoTreeSimilar(root1.rChild, root2.rChild) 
+    
+    ''' Returns height or depth of tree - longest path between root and leaf'''
+    def findHeightOfTree(self,refNode):
+        if refNode == None: return 0
+        elif refNode.lChild == None:
+            return self.findHeightOfTree(refNode.rChild) + 1
+        elif refNode.rChild == None:
+            return self.findHeightOfTree(refNode.lChild) + 1
+        return max(self.findHeightOfTree(refNode.lChild),self.findHeightOfTree(refNode.rChild))+1
+
+
+class BTExtraOpeartions(BTOperations):
+    
+    ''' LeetCodeProblem 
+    serialize all nodes keys in string and send to server. It sends all keys as well as None'''
+    def serializationOfBT(self,refNode):
+        if refNode == None: return
+        height = self.findHeightOfTree(refNode)
+        maxSizeOfTree = 2**height
+        serialList = list()
+        que = deque([refNode])
+        serialList.append(str(refNode.key))
+        while que:
+            if len(serialList) >= maxSizeOfTree-1:
+                break
+            temp = que.popleft()
+            if temp:
+                if temp.lChild != None:
+                    serialList.append(str(temp.lChild.key))
+                else: serialList.append("None")
+                
+                if temp.rChild != None: 
+                    serialList.append(str(temp.rChild.key))
+                else: serialList.append("None")
+                que.append(temp.lChild)
+                que.append(temp.rChild)
+            else:
+                que.append(temp)
+                que.append(temp)
+                serialList.append("None")
+                serialList.append("None")
+                
+        return (",").join(serialList)     
+    
+    
+    
+    ''' LeetCodeProblem 
+    Try to make reciever as simple as possible. Server should be simple'''    
+    def deserializationOfBT(self,keys):
+        if len(keys) == 0 :return None
+        keys = deque(keys.split(","))
+        key = keys.popleft()
+        root = None
+        if key != "None":
+            root = BTNode(int(key))
+        que = deque([root])
+        while que and len(keys) >0:
+            temp = que.popleft()
+            left = keys.popleft()
+            right = keys.popleft()
+            if temp != None:
+                temp.lChild = BTNode(int(left)) if left != "None" else None
+                temp.rChild = BTNode(int(right)) if right != "None" else None
+                que.append(temp.lChild)
+                que.append(temp.rChild)
+      
+        return root
         
 def main():
     
@@ -162,8 +245,11 @@ def main():
     
     ''' Checking trees are similar'''
     
-    print "Are this trees similar - " ,BTree3.areTwoTreeSimilar(BTree3.root,BTree3.root)
+    print "Are this trees similar - " ,BTree3.areTwoTreeSimilar(BTree1.root,BTree1.root)
     print "Are this trees similar - " ,BTree3.areTwoTreeSimilar(BTree3.root,BTree1.root)
+    
+    BTree3.printLevelOrder(BTree3.root)
+    
 
 if __name__ == '__main__':
     main()

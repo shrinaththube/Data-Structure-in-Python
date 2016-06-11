@@ -12,10 +12,10 @@ It must imported at beginning of file
 
 from tree.binaryTree import BTOperations
 from tree.binaryTree import BTNode
+from tree.binaryTree import BTExtraOpeartions
 
 
-
-class BstOperations(BTOperations):
+class BstOperations(BTExtraOpeartions):
     '''
     This class contains create bst, display it, insert node
     '''
@@ -130,15 +130,7 @@ class BstExtrafunctions(BstOperations):
         
         return max(self.findMinSumPathSum(refNode.lChild),self.findMaxSumPathSum(refNode.rChild)) + refNode.key
     
-    ''' Returns height or depth of tree - longest path between root and leaf'''
-    def findHeightOfTree(self,refNode):
-        if refNode == None: return 0
-        elif refNode.lChild == None:
-            return self.findHeightOfTree(refNode.rChild) + 1
-        elif refNode.rChild == None:
-            return self.findHeightOfTree(refNode.lChild) + 1
-        return max(self.findHeightOfTree(refNode.lChild),self.findHeightOfTree(refNode.rChild))+1
-    
+        
     ''' Returns size ( count of nodes ) of tree
         Number of technics to find size 
         1) Use the following method - count nodes recursively for left subtree and right subtree and add it with root
@@ -164,7 +156,9 @@ class BstExtrafunctions(BstOperations):
         if refNode == None: return 0
         return (self.findHeightOfTree(refNode)/self.findSizeOfTree(refNode))
     
-    ''' pushing odd keys down towards leaf of tree and making even keys parents'''
+    '''GeeksforGeeks problem 
+        pushing odd keys down towards leaf of tree and making even keys parents
+    '''
     def sinkOddNodesInBT(self,refNode):
         if refNode == None: return
         
@@ -228,7 +222,7 @@ size =0
 def main():
     tree1 = BstOperations()
     tree2 = BstExtrafunctions()
-    tree2.createBst([10,15,6,7,3,2,8,9,13,18,19])
+    tree2.createBst([10,15,6,7,3,2,8,9,13,18,19,20])
     tree1.insertNode(10, tree1.root)
     tree1.insertNode(15, tree1.root)
     tree1.insertNode(5, tree1.root)
@@ -241,7 +235,17 @@ def main():
     print "Height of tree2 = ", tree2.findHeightOfTree(tree2.root)
     print "size of tree2 = ", tree2.findSizeOfTree(tree2.root)
     print "Density of tree2 = ", tree2.findDensityOfTree(tree2.root)
-    tree2.sinkOddNodesInBT(tree2.root)
+    #tree2.sinkOddNodesInBT(tree2.root)
     BTOperations.displayTree(tree2, tree2.root) 
+    # Serialization 
+    serialString = tree2.serializationOfBT(tree2.root)
+    #serialString = "10,6,15,3,7,13,18,2,None,None,8,None,None,None,19,None,None,None,None,None,None,None,9,None,None,None,None,None,None,None,20"
+
+    #dserialization
+    tree3 = BTExtraOpeartions()
+    tree3.root = tree3.deserializationOfBT(serialString)
+    BTOperations.displayTree(tree3,tree3.root )
+    
+    
 if __name__ == '__main__':
     main()
