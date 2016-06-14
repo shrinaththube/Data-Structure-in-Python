@@ -177,7 +177,28 @@ class BstExtrafunctions(BstOperations):
         
         self.sinkOddNodesInBT(refNode.lChild)
         self.sinkOddNodesInBT(refNode.rChild)    
+    
+    
+    ''' Finds the root1 Bst contains all nodes as per the root 2 Bst '''
+    def areContainsAllNodes(self,root1,root2):
+        if root1 == None and root2 == None: return True
+        elif root1 != None and root2 == None: return True
+        elif root1 == None and root2 != None: return False
+        elif root1.key != root2.key: return False
         
+        return self.areContainsAllNodes(root1.lChild,root2.lChild) and self.areContainsAllNodes(root1.rChild,root2.rChild) 
+    
+    ''' Finds the is root2 Bst is sub bst of root1 Bst''' 
+    def isItSubBst(self,root1, root2):
+        if root1 == None or root2 == None: return False
+        refNode1 = root1
+        # if roo2 is not present in Bst 1 then refNode will be None at some point and it should check first
+        while refNode1 != None and refNode1.key != root2.key:
+            if root2.key < refNode1.key:
+                refNode1 = refNode1.lChild
+            else:
+                refNode1 = refNode1.rChild
+        return self.areContainsAllNodes(refNode1, root2)   
     
     ''' Does not working..... Finding the bug
     def createFullBinTreeFromPrePostOrder(self,preList,postList,postStart,postLast):
@@ -246,6 +267,18 @@ def main():
     tree3.root = tree3.deserializationOfBT(serialString)
     BTOperations.displayTree(tree3,tree3.root )
     
+    #Test case to check method isItSubBst
+    tree4 = BstExtrafunctions()
+    bstList4 = [10,5,20,3,8,2,4,7,9,15,25,18,16,21,27,28]
+    tree4.createBst(bstList4)
+    BTOperations.displayTree(tree4, tree4.root)
+    tree5 = BstExtrafunctions()
+    bstList5 = [20,15,25,18,21,27]
+    tree5.createBst(bstList5)
+    BTOperations.displayTree(tree5, tree5.root)
+    
+    print "tree5 is sub bst of tree4 = ", tree4.isItSubBst(tree4.root, tree5.root) # expected True
+    print "tree5 is sub bst of tree1 = ", tree4.isItSubBst(tree1.root, tree5.root) # expected False
     
 if __name__ == '__main__':
     main()
