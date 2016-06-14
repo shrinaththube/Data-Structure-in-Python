@@ -5,6 +5,7 @@ Created on Jun 8, 2016
 '''
 from _collections import deque
 from test._mock_backport import right
+from copy import deepcopy
 
 class BTNode(object):
     '''
@@ -53,7 +54,31 @@ class BTOperations(object):
                     temp_que.append(node.rChild)
             print
             que = temp_que
-            
+     
+    def printBoundaryElementsOfTree(self,refNod):
+        if refNod == None: 
+            print "No tree formed" 
+            return
+        que = deque()
+        que.append(refNod)
+        print refNod.key
+        while que:
+            level_que = deque()
+            for node in list(que):
+                if node.lChild != None:
+                    level_que.append(node.lChild)
+                if node.rChild != None:
+                    level_que.append(node.rChild)
+                if node.lChild == None and node.rChild == None:
+                    print node.key,
+             
+            que = deepcopy(level_que)
+            if level_que:
+                node = level_que.popleft()
+                if node.lChild !=None or node.rChild !=None: print node.key, 
+                node = level_que.pop()
+                if node.lChild !=None or node.rChild !=None: print node.key 
+                
             
     @staticmethod 
     def displayTree(self,refNode): #Static method can be called by class name

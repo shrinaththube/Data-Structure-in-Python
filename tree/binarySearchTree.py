@@ -280,5 +280,9 @@ def main():
     print "tree5 is sub bst of tree4 = ", tree4.isItSubBst(tree4.root, tree5.root) # expected True
     print "tree5 is sub bst of tree1 = ", tree4.isItSubBst(tree1.root, tree5.root) # expected False
     
+    #Print boundary elements of tree
+    print "All boundary elements - "
+    tree4.printBoundaryElementsOfTree(tree4.root)
+    
 if __name__ == '__main__':
     main()
