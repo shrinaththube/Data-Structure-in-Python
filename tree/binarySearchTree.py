@@ -200,6 +200,63 @@ class BstExtrafunctions(BstOperations):
                 refNode1 = refNode1.rChild
         return self.areContainsAllNodes(refNode1, root2)   
     
+    ''' Checks the nodes is present in Bst or not Time complexity O(log n)'''
+    def isNodePresentInBst(self,root,refNode):
+        if root == None: return False
+        while root != None:
+            if root.key == refNode.key: return True
+            elif refNode.key < root.key:
+                root = root.lChild
+            else:
+                root = root.rChild
+        
+        return False
+                 
+    ''' Find the neareast ancestor in bst '''
+    def findLowestCommonAncestor(self,root,refNode1, refNode2):
+        if root == None: return None
+        # print root.key, refNode1.key, refNode2.key
+        if refNode1.key == refNode2.key and refNode2.key == root.key:
+            return refNode1
+        elif (refNode1.key < root.key and refNode2.key >= root.key)or (refNode1.key >= root.key and refNode2.key < root.key):
+            if self.isNodePresentInBst(root, refNode1) and self.isNodePresentInBst(root, refNode2):
+                return root
+            else: 
+                print"Node is not present in tree"
+                return None
+        elif refNode1.key < root.key and refNode2.key < root.key:
+            return self.findLowestCommonAncestor(root.lChild, refNode1, refNode2)
+        elif refNode1.key >=  root.key and refNode2.key >=  root.key:
+            return self.findLowestCommonAncestor(root.rChild, refNode1, refNode2)
+    
+    ''' Count the number of nodes from root to desire node '''    
+    def numberOfNodesUpToDesireNode(self,root,refNode):
+        if root == None: return 0
+        elif root.key == refNode.key:
+            return 1
+        elif root.lChild == None:
+            node_count = self.numberOfNodesUpToDesireNode(root.rChild, refNode)
+            if node_count == 0: return 0 
+            else: return  node_count+ 1
+        elif root.rChild == None:
+            node_count = self.numberOfNodesUpToDesireNode(root.lChild, refNode)
+            if node_count == 0: return 0
+            else:  return node_count + 1
+        final_count = max( self.numberOfNodesUpToDesireNode(root.lChild, refNode) , self.numberOfNodesUpToDesireNode(root.rChild, refNode) )
+        # This is because if the node is not present at all in tree then value should return 0
+        if final_count == 0: return 0
+        else: return final_count + 1    
+    
+    ''' Find the minimum distance between two nodes in bst'''  
+    def findMinmumDistanceOfTwoNodesInBst(self,root,refNode1,refNode2):
+        if root == None: 
+            print "Tree is not formed yet"
+            return
+        lowest_common_ancestor = self.findLowestCommonAncestor(root, refNode1, refNode2) #ancestor will not leaf node in any condition
+        # number of nodes at left sides of lowest_common_ancestor + number of nodes at right side + itself
+        if lowest_common_ancestor == None: return "One of the node is not in bst "
+        return self.numberOfNodesUpToDesireNode(lowest_common_ancestor.lChild, refNode1) + self.numberOfNodesUpToDesireNode(lowest_common_ancestor.rChild, refNode2) + 1  
+    
     ''' Does not working..... Finding the bug
     def createFullBinTreeFromPrePostOrder(self,preList,postList,postStart,postLast):
         if postStart > postLast or len(preList) == self.preIndex :
@@ -262,7 +319,7 @@ def main():
     serialString = tree2.serializationOfBT(tree2.root)
     #serialString = "10,6,15,3,7,13,18,2,None,None,8,None,None,None,19,None,None,None,None,None,None,None,9,None,None,None,None,None,None,None,20"
 
-    #dserialization
+    #deserialization
     tree3 = BTExtraOpeartions()
     tree3.root = tree3.deserializationOfBT(serialString)
     BTOperations.displayTree(tree3,tree3.root )
@@ -283,6 +340,19 @@ def main():
     #Print boundary elements of tree
     print "All boundary elements - "
     tree4.printBoundaryElementsOfTree(tree4.root)
+    
+    #finding common lowest ancestor
+    print "\n----------------- Finding ancestor---------------------------- \n "
+    node1 = BTNode(2)
+    node2 = BTNode(9)
+    ancestorNode = tree4.findLowestCommonAncestor(tree4.root, node1, node2)
+    
+    if ancestorNode: print "Lowest common ancestor - ", ancestorNode.key
+    
+    # find the distance between two nodes in bst
+    print "\n--------------distance between two nodes in bst--------------------------------------\n"
+    node2.key = 21 
+    print "distance - ",tree4.findMinmumDistanceOfTwoNodesInBst(tree4.root, node1, node2) 
     
 if __name__ == '__main__':
     main()
