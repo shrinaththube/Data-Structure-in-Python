@@ -296,6 +296,73 @@ tree5.root = tree5.createFullBinTreeFromPrePostOrder(preL, postL, 1, len(postL)-
 tree5.displayTree(tree5.root)
 '''
         
+        
+class BstNodeAugmented(BTNode):
+    
+    def __init__(self,key,lNodes=1):
+        super(BstNodeAugmented,self).__init__(key)
+        self.lNodes = lNodes
+
+class BstAugmented(BstExtrafunctions):
+    
+    def findKthSmallestElement(self,root,k):
+        if root == None: 
+            print root.key
+            return
+        if k < 1 :
+            print "K is not valid - ",k
+            return
+        
+        refNode =  root
+        
+        while refNode != None:
+            if refNode.lNodes == k:
+                return refNode
+            elif refNode.lNodes > k:
+                refNode = refNode.lChild
+            else:
+                refNode = refNode.rChild
+    
+        print "K is out of bound"
+        return
+    
+    def increamentLNodesValue(self,root):
+        if root == None: return
+        root.lNodes +=1
+        self.increamentLNodesValue(root.lChild)
+        self.increamentLNodesValue(root.rChild)
+     
+    def insertNode(self, key, root):
+        if self.root == None:
+            self.root = BstNodeAugmented(key)
+        else:
+            refNode = root
+            newNode = BstNodeAugmented(key)
+            while refNode != None:
+                if newNode.key < refNode.key:
+                    refNode.lNodes += 1
+                    self.increamentLNodesValue(refNode.rChild)
+                    if refNode.lChild == None:
+                        refNode.lChild = newNode
+                        return
+                    else:
+                        refNode = refNode.lChild
+                else:
+                    newNode.lNodes = refNode.lNodes + 1
+                    if refNode.rChild == None:
+                        refNode.rChild = newNode
+                        return
+                    else:
+                        refNode = refNode.rChild
+    
+    def createAugmentedBst(self,elemetnList):
+        if len(elemetnList) == 0: 
+            print "List is empty"
+            return
+        for ele in elemetnList:
+            self.insertNode(ele, self.root)
+
+        
 size =0
 def main():
     tree1 = BstOperations()
@@ -352,7 +419,17 @@ def main():
     # find the distance between two nodes in bst
     print "\n--------------distance between two nodes in bst--------------------------------------\n"
     node2.key = 21 
-    print "distance - ",tree4.findMinmumDistanceOfTwoNodesInBst(tree4.root, node1, node2) 
+    print "distance - ",tree4.findMinmumDistanceOfTwoNodesInBst(tree4.root, node1, node2)
+    
+    #find Kth smallest element by augment method. Added one field in node for count of number of leftNodes of each node
+    augmentTree1 = BstAugmented()
+    augmentTree1.createAugmentedBst([10,15,6,7,3,2,8,9,13,18,19,20])
+    
+    BTOperations.displayTree(augmentTree1,augmentTree1.root)
+    
+    print"Kth smallest element = ", augmentTree1.findKthSmallestElement(augmentTree1.root, 10).key
+ 
     
 if __name__ == '__main__':
-    main()
+    #main()
+    pass
