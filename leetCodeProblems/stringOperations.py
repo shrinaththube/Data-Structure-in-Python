@@ -18,3 +18,4 @@ def intersectionOf2String(str1,str2):
     return intStr
 
 print intersectionOf2String("defagbc", "abcdefg")
+
