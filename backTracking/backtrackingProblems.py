@@ -1,6 +1,8 @@
 import timeit
 
+
 ''' Backtracking way to find all permutation of string '''
+
 def printAllPermutaionOfString(list_char,start,end):
     global count
     if len(list_char) < 1: return
@@ -43,6 +45,38 @@ def allPermutaionOfStringIterative(list_char):
             i +=1
             #print "else ---- ", "i -", i, p
 
+
+
+""" Leetcode discussion  
+BackTracking way to find all valid ip combination of number string
+"""
+             
+def restore_ip_addresses(raw_string):
+    if len(raw_string) < 4 or len(raw_string)>12: return 
+    restored_ip=[]
+    ip = ['']*4
+    restore_backtrack(raw_string,ip,0,restored_ip)
+    return restored_ip
+
+def restore_backtrack(raw_string,ip,octet,restored_ip):
+    if len(raw_string) < 1: return
+    if octet == 3:
+        ip[octet] = raw_string
+        if is_octet_valid(ip[octet]):
+            restored_ip.append('.'.join(ip))
+        return 
+    
+    for i in xrange(1,4):
+        ip[octet] = raw_string[:i]
+        if is_octet_valid(ip[octet]):
+            restore_backtrack(raw_string[i:], ip, octet + 1, restored_ip)
+    
+def is_octet_valid(octet_string):
+    if len(octet_string) <1: return False
+    elif str(int(octet_string)) != octet_string or int(octet_string) > 255: return False
+    return True
+    
+
 count = 0
 #list_char = list(string) 
 list_char = "a,b,c,d,e".split(",")
@@ -61,3 +95,10 @@ allPermutaionOfStringIterative(list_char)
 print "\n number of permutation -",count
 elapsed = timeit.default_timer() - start_time
 print "time required to find - ",elapsed
+
+print"\n------------print All possible valid ip addresses -----------------------\n"
+print "12345678 -> ",restore_ip_addresses("12345678")
+print "25525511135 ->",restore_ip_addresses("25525511135")
+print "1234 ->",restore_ip_addresses("1234")
+print "12345678902344 ->",restore_ip_addresses("12345678902344")
+print "123 ->",restore_ip_addresses("123")
