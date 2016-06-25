@@ -31,11 +31,15 @@ class Vertex(object):
     def get_weight(self,neighbor):
         return self.adjacent_vert[neighbor]
     
-    def is_vert_visited(self):
+    def is_visited(self):
         return self.visit_Status
     
     def set_visit_status(self, status):
         self.visit_Status = status
+        
+    def has_no_connections(self):
+        if len(self.adjacent_vert) == 0: return True
+        return False
         
 
 class Graph(object):
@@ -72,9 +76,30 @@ class Graph(object):
             for start,end,wt in edgeList:
                 self.add_edges(start, end, wt)
     
+    def create_undirected_graph(self,vertexList, edgeList):
+        for vert in vertexList:
+            self.add_vertices(vert)
+        
+        if len(edgeList[0]) == 2:
+            for start,end in edgeList:
+                self.add_edges(start, end)
+                self.add_edges(end, start)
+                
+        elif len(edgeList[0]) == 3:
+            for start,end,wt in edgeList:
+                self.add_edges(start, end, wt)
     
-    def dfs_traversal(self,graph):
-        pass
+    def dfs_traversal(self,vert):
+        #if vert.has_no_connections(): return
+        print vert.lable,
+        for v in vert.adjacent_vert:
+            if not v.is_visited(): 
+                v.set_visit_status(True)
+                self.dfs_traversal(v)
+        
+        #print vert.lable,
+            
+        
     
     def bfs_traversal(self,graph):
         pass
@@ -86,6 +111,7 @@ edgeList = [(0,1),(0,2),(0,3),(1,3),(1,4),(2,4),(3,4)]
 
 
 graph1.create_directed_graph(vertexList, edgeList)
+
 
 '''
 graph1.add_vertices(0)
@@ -118,13 +144,15 @@ graph1.add_edges('d', 'e')
 '''
 
 
+for v in graph1:
+    print v
 
-
-
-
-
-
-print graph1.vert_dict
+graph1.create_undirected_graph(vertexList, edgeList)
 
 for v in graph1:
     print v
+
+
+print graph1.vert_dict[0]
+
+graph1.dfs_traversal(graph1.vert_dict[0])
