@@ -8,13 +8,14 @@ Created on Jun 26, 2016
 Time complexity - O(log n) - Binary search algorithm
 space complexity - O(1)
 """
-
 def findPeekElement(array):
     if len(array) <1: return 
+    start = 0
     end = len(array)
-    for start in xrange(end):
+    
+    while start <= end:
         mid = (start + end)/2
-        #print mid, array[mid]
+        #print start,mid, end,array[mid]
         if mid == len(array)-1 and array[mid] > array[mid-1]: #edge case- end element compare
             return array[mid]
         elif mid== 0 and array[mid] > array[mid+1]:  #edge case- first element compare
