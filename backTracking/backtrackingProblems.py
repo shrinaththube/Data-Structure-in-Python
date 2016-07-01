@@ -168,7 +168,7 @@ def main():
     print "\n----------------Iterative with quick permutation algorithm -----------\n"
     
     start_time = timeit.default_timer()
-    print "12345678 -> ", restore_ip_iterative("1234567")
+    print "12345678 -> ", restore_ip_iterative("2550780")
     elapsed = timeit.default_timer() - start_time
     print "time required to find - ",elapsed
 

@@ -182,7 +182,7 @@ class BstExtrafunctions(BstOperations):
     ''' Finds the root1 Bst contains all nodes as per the root 2 Bst '''
     def areContainsAllNodes(self,root1,root2):
         if root1 == None and root2 == None: return True
-        elif root1 != None and root2 == None: return True
+        elif root1 != None and root2 == None: return True # Check it for below aswell
         elif root1 == None and root2 != None: return False
         elif root1.key != root2.key: return False
         
@@ -304,7 +304,9 @@ class BstNodeAugmented(BTNode):
         self.lNodes = lNodes
 
 class BstAugmented(BstExtrafunctions):
-    
+    ''' Find Kth smallest element - This method tkaes
+        Time Complexity - O(log h)
+        Space - Need to add left node count field while constructing tree''' 
     def findKthSmallestElement(self,root,k):
         if root == None: 
             print root.key
@@ -326,12 +328,15 @@ class BstAugmented(BstExtrafunctions):
         print "K is out of bound"
         return
     
+    ''' Increment count of all right side elements if any element added at left side'''
+    
     def increamentLNodesValue(self,root):
         if root == None: return
         root.lNodes +=1
         self.increamentLNodesValue(root.lChild)
         self.increamentLNodesValue(root.rChild)
      
+    ''' Insert Node in bst with additional left '''
     def insertNode(self, key, root):
         if self.root == None:
             self.root = BstNodeAugmented(key)
