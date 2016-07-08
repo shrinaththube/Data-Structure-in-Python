@@ -1,7 +1,28 @@
+'''
+
+@author: Shrinath Thube
+'''
+
+"""
+    ************************* Backtracking ************************************
+    Following problems are covered in this module
+    
+    1) Find all permutation of unique characters string by Backtracking
+    2) Coooolest algorithm to count and print all permutation of unique characters string by iterative
+    3) Find all permutation of repeated characters string by BackTracking
+    4) Find all valid IP addresses from combination of number string by BackTracking
+    5) Find all valid IP addresses from combination of number string by iteration
+    
+    ***************************************************************************
+""" 
+
 import timeit
 
 
-''' Backtracking way to find all permutation of string '''
+''' Find all permutation of unique characters string by Backtracking 
+    Time complexity - O(n!) - recurrence equation T(n) = n * ( T(n-1) + O(1)) 
+    Space complexity - exponential if consider recursive stack
+'''
 
 count = 0
 def printAllPermutaionOfString(list_char,start,end):
@@ -19,8 +40,10 @@ def printAllPermutaionOfString(list_char,start,end):
             #print "after re", list_char [start], list_char[ind], list_char
             list_char[start], list_char[ind] = list_char[ind],list_char[start]
 
-''' Coooolest algorithm to count and print all permutation
+''' Coooolest algorithm to count and print all permutation of unique characters string by iterative
     got it form -    http://www.quickperm.org/
+    Time complexity - O(n!)
+    Space complexity - O(1)
 '''
 def allPermutaionOfStringIterative(list_char):
     global count
@@ -46,9 +69,10 @@ def allPermutaionOfStringIterative(list_char):
             i +=1
             #print "else ---- ", "i -", i, p
 
-
-
-""" BackTracking way to find all permutation of repeated character string"""
+''' Find all permutation of repeated characters string by BackTracking  
+    Time complexity - O(n!)
+    space complexity - O(1)
+'''
 def allPermutationOfRepeatedCharString(raw_string):
     list_unique_char = {}
     list_combi_char = ['']*len(raw_string)
@@ -72,14 +96,16 @@ def backTrackAllPermutationOfRepeatedCharString(list_unique_char,list_combi_char
         list_combi_char[level_rec] = ch
         list_unique_char[ch] -=1
         backTrackAllPermutationOfRepeatedCharString(list_unique_char, list_combi_char, level_rec + 1)
-       # print list_unique_char,list_combi_char
+        # print list_unique_char,list_combi_char
         list_unique_char[ch] +=1
     
 
 
-""" Leetcode discussion  
-BackTracking way to find all valid ip combination of number string
-"""
+''' Find all valid IP addresses from combination of number string by BackTracking  
+    reference - Leetcode discussion  
+    Time complexity - O(n!)
+    Space complexity - O(1)
+'''
              
 def restore_ip_addresses(raw_string):
     if len(raw_string) < 4 or len(raw_string)>12: return 
@@ -107,9 +133,12 @@ def is_octet_valid(octet_string):
     return True
     
 
-""" Iterative way to resotred ip addresses from number string
- reference - http://massivealgorithms.blogspot.com/2014/06/leetcode-restore-ip-addresses-darrens.html
-"""
+''' Find all valid IP addresses from combination of number string by iteration  
+    reference - http://massivealgorithms.blogspot.com/2014/06/leetcode-restore-ip-addresses-darrens.html  
+    Time complexity - O(n^4)
+    Space complexity - O(1)
+'''
+
 def restore_ip_iterative(raw_string):
     restored_ip =[]
     for a in xrange(1,4):
@@ -175,4 +204,4 @@ def main():
 
 if __name__ == '__main__':
     main()
-    pass
+    
