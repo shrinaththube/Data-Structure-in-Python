@@ -3,7 +3,22 @@ Created on Jun 3, 2016
 
 @author: Shrinath Thube
 '''
-""" Solution for Trapping Rain Water problem """
+"""
+    ************************* Rain water Trapping *****************************
+    Following problems are covered in this module
+    
+    1) Solution for Trapping Rain Water problem
+    
+    ***************************************************************************
+""" 
+
+
+
+
+''' Solution for Trapping Rain Water problem 
+    Time complexity - O(n)
+    Space complexity - O(n)
+'''
 class TrapRW(object):
     
     def totalRainWater(self,arrHeight):

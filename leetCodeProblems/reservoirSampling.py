@@ -4,13 +4,28 @@ Created on Jun 17, 2016
 @author: Shrinath Thube
 '''
 
+"""
+    ************************* Reservoir Sampling ******************************
+    Following problems are covered in this module
+    
+    1) Return random k samples from large data set
+    
+    ***************************************************************************
+""" 
+
+
 import random
 
 
-''' -------------------- GeeksForGeeks ----------------------------------------- 
+''' -------------------- GeeksForGeeks -----------------------------------------
+    Return random k samples from large data set
 If there is streaming data that can not fit in to memory. Then first decide the return data size. 
 Fill it with stream data as it is first k elements. Then iterate the new coming data and compare the 
-parameters with the filled data and replace better data with those one '''
+parameters with the filled data and replace better data with those one
+
+    Time complexity - O(n)
+    Space complexity - O(k)
+'''
 def randomKsamples(streamData,k):
     if k<1 : return
     
@@ -26,6 +41,11 @@ def randomKsamples(streamData,k):
             reservoir[r],streamData[i] = streamData[i],reservoir[r] #swap first k with stream data after k
     return reservoir
 
-streamData = [1,2,3,4,5,6,7,8,9,10]
-print "Stream data = ", streamData        
-print "k random result = ", randomKsamples(streamData, 4)
+
+def main():
+    streamData = [1,2,3,4,5,6,7,8,9,10]
+    print "Stream data = ", streamData        
+    print "k random result = ", randomKsamples(streamData, 4)
+    
+if __name__ == '__main__':
+    main()

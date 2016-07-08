@@ -3,11 +3,30 @@ Created on Jun 26, 2016
 
 @author: Shrinath Thube
 '''
+"""
+    ************************* Array Operations ********************************
+    Following problems are covered in this module
+    
+    1) Find the max sum sub array by Kadane's Algorithm
+    2) Find any peek element in given unsorted array or list.
+    3) Find element that came minimum 1/4 th times total elements in sorted array
+    4) Find longest increasing sub sequence in given array
+    5) Find Max Sum longest increasing sub sequence in given array
+    6) Find minimum jumps to reach at the end of array
+    7) Find minimum jumps to reach at the end of array by Dynamic Programming
+    8) Find the next high / greater element of every element of array
+    9) Find the majority element in given array if any or return None
+
+    ***************************************************************************
+""" 
+
 from copy import deepcopy
 
 
-''' Kadane's Algorithm 
+''' Find the max sum sub array 
+    Kadane's Algorithm 
     Time complexity - O(n)
+    Space complexity - O(1)
     '''
 def findMaxSumSubArray(arr):
     if len(arr) < 1: return
@@ -20,24 +39,23 @@ def findMaxSumSubArray(arr):
         
         if arr[i] > (arr[i] + current_max):
             start = i
-        #else:
-         
+  
         current_max = max((arr[i]+ current_max), arr[i]) 
         
         if current_max > global_max:
             global_max = current_max
             end = i
-            
-    
-    print "start ->",start,"end ->", end,"sub array -> ", arr[start:end+1],global_max
+
+    #print "start ->",start,"end ->", end,"sub array -> ", arr[start:end+1],global_max
+    return (arr[start:end+1],global_max)
         
         
 
 
-""" Find the any peek element in given unsorted array or list. 
-Time complexity - O(log n) - Binary search algorithm
-space complexity - O(1)
-"""
+''' Find any peek element in given unsorted array or list. 
+    Time complexity - O(log n) - Binary search algorithm
+    space complexity - O(1)
+'''
 def findPeekElement(array):
     if len(array) <1: return 
     start = 0
@@ -58,7 +76,7 @@ def findPeekElement(array):
             end = mid -1 
         
 
-''' Find element that comes minimum 1/4 th times total elements in sorted array
+''' Find element that came minimum 1/4 th times total elements in sorted array
     Time complexity - O (log n)
     Modified binary search 
 '''
@@ -117,7 +135,7 @@ def findLongesIncreasingSubsequence(arr):
                 end = mid - 1
         
         position = start
-       # print i,position, start, parent, inc_sub
+        #print i,position, start, parent, inc_sub
         parent[i] = inc_sub[position-1]
         
         inc_sub[position] = i
@@ -179,15 +197,117 @@ def findMaxSumLongIncSubSeq(arr):
     
     return result[::-1]
 
+''' Minimum jumps to reach at end of array
+    Ladder and stairs approach in Linear time
+    Time complexity - O(n) 
+    space complexity - O(1)
+    '''
+def minHopToEndOfArr(arr):
+    if len(arr)<1:return
+    if arr[0] < 1: return None
+    ladder = arr[0]
+    stairs = arr[0]
+    i =1
+    jump =1
+    while i<len(arr):
+        stairs -=1
+        if arr[i] + i> ladder :
+            ladder = arr[i] + i        
+        if stairs <1  and ladder - i <1: return None #edge case when value encounter is 0
+        if stairs <1:
+            stairs = ladder - i
+            jump +=1
+        if stairs +i  >= len(arr): return jump
+        i+=1
+    return jump
+
+''' Minimum jumps to reach at the end of array by Dynamic Programming
+    Time complexity - O(n^2) 
+    space complexity - O(n)
+    '''
+
+def minHopToEndOfArrByDP(arr):
+    if len(arr)<1:return
+    if arr[0] < 1: return None
+    jump = [None for i in xrange(len(arr))]
+
+    jump[0] = 0
+    #print jump
+    for i in xrange(len(arr)):
+        if jump[i] == None or arr[i] < 0: return None
+        
+        for j in xrange(i+1,arr[i] +i +1):
+            if j >= len(arr): break
+            if jump[j] == None:
+                jump[j] = jump[i] + 1
+            elif jump[j] > jump[i] + 1:
+                jump[j] = jump[i] + 1
+
+    return jump[len(arr) -1]
+
+''' Find the next high element of every element of array
+    Time complexity - O(n)
+    Space complexity - O(n)
+'''
+def nextGreaterElementList(arr):
+    if len(arr) < 1: return
+    
+    greaterEle = {}
+    
+    st = list()
+    st.append(arr[0])
+    for i in xrange(len(arr)):
+        if st[-1] >= arr[i]:
+            st.append(arr[i])
+        else:
+            while arr[i] > st[-1]:
+                greaterEle[st.pop()] = arr[i]
+            st.append(arr[i])
+            
+    while st:
+        greaterEle[st.pop()] = None
+    return greaterEle
+
+''' Find the majority element in given array if any or return None
+    Boyer-Moore Vote algorithm
+    Time - O(n)
+    Space - O(1)
+'''
+
+def findMajorityElement(arr):
+    if len(arr) < 1: return
+    
+    majEle = arr[0]
+    count = 0
+    # find majority element
+    for ele in arr:
+        if count == 0:
+            majEle = ele
+            count +=1
+        else:
+            if ele == majEle:
+                count +=1
+            else:
+                count -=1
+    # check if it is majority element
+    count = 0
+    for ele in arr:
+        if ele == majEle:
+            count +=1
+    if count >= len(arr)/2:
+        return majEle
+    else:
+        return None
+
 
 
 def main():
     
     # Finding max sum sub array
     print "--------Finding max sum of sub array and start and end index of it------------"
-    findMaxSumSubArray([1,-3,2,1,-1])
-    findMaxSumSubArray([-2,3,2,1,-1])
-    findMaxSumSubArray([-1,-2,3,4,-5,6])        
+    print "sub array and max sum-> ",findMaxSumSubArray([1,-3,2,1,-1])
+    print "sub array and max sum-> ",findMaxSumSubArray([-2,3,2,1,-1])
+    print "sub array and max sum-> ",findMaxSumSubArray([-1,-2,3,4,-5,6])        
     
     
     # Finding peek element in unsorted array
@@ -205,6 +325,22 @@ def main():
     
     # Find max sum longest increasing sub sequence
     print "Max Sum Sequence ->",findMaxSumLongIncSubSeq(l)
+
+    # Find minimum jumps needed to reach at end of array by Ladder and stairs
+    arr = [1,4,2,3,7,5,6,7,10]
+    print "Minimum jumps needed by Ladder and Stairs-> ", minHopToEndOfArr(arr)
+
+    # Find minimum jumps needed to reach at end of array by DP
+    #arr = [1,4,2,3,7,5,6,7,10]
+    print "Minimum jumps needed by DP-> ", minHopToEndOfArrByDP(arr)
+    
+    # Find next Greater Element List
+    elements=[94,52,27,56,2,7]
+    print nextGreaterElementList(elements)
+    
+    # Find majority element
+    numbers = [1,2,2,3,2,4,2,2,1,1,2,3]
+    print "Majority element in given array ->", findMajorityElement(numbers)
 
 
 if __name__ == '__main__':
