@@ -10,8 +10,9 @@
     1) Find all permutation of unique characters string by Backtracking
     2) Coooolest algorithm to count and print all permutation of unique characters string by iterative
     3) Find all permutation of repeated characters string by BackTracking
-    4) Find all valid IP addresses from combination of number string by BackTracking
-    5) Find all valid IP addresses from combination of number string by iteration
+    4) Find all Subset of characters string considering repeated characters by BackTracking
+    5) Find all valid IP addresses from combination of number string by BackTracking
+    6) Find all valid IP addresses from combination of number string by iteration
     
     ***************************************************************************
 """ 
@@ -82,8 +83,8 @@ def allPermutationOfRepeatedCharString(raw_string):
         else:
             list_unique_char.setdefault(ch,1)
     
-    backTrackAllPermutationOfRepeatedCharString(list_unique_char,list_combi_char,0)   
-
+    backTrackAllPermutationOfRepeatedCharString(list_unique_char,list_combi_char,0)
+    
 
 def backTrackAllPermutationOfRepeatedCharString(list_unique_char,list_combi_char,level_rec):
     if len(list_unique_char) <1: return
@@ -100,6 +101,45 @@ def backTrackAllPermutationOfRepeatedCharString(list_unique_char,list_combi_char
         list_unique_char[ch] +=1
     
 
+
+''' Find all Subset of characters string considering repeated characters by BackTracking  
+    Time complexity - O(2 ^ n) exponential
+    space complexity - O(1)
+'''
+
+def allSubSetOfString(raw_string):
+    if len(raw_string) < 1:
+        return
+    unique_ch_list = []
+    ch_count = []
+    temp_arr = [""]*len(raw_string)
+    result_sub = []
+    #counting repeated characters and make list of unique char and their count
+    for ch in raw_string:
+        if ch in unique_ch_list:
+            ch_count[unique_ch_list.index(ch)] +=1
+        else:
+            unique_ch_list.append(ch)
+            ch_count.append(1)
+    
+    backTrackAllSubSetOfString(unique_ch_list, ch_count,temp_arr,result_sub, level =0, pos = 0)        
+    return result_sub
+    
+def backTrackAllSubSetOfString(unique_ch,ch_count,temp_arr,result_sub,level,pos):
+    
+    if level == len(temp_arr): return
+    
+    for i in xrange(pos,len(unique_ch)):
+        if ch_count[i] < 1: continue
+        temp_arr[level] = unique_ch[i]
+        ch_count[i] -=1
+        #print ''.join(temp_arr),  temp_arr,  ch_count
+        result_sub.append(''.join(temp_arr))
+        backTrackAllSubSetOfString(unique_ch, ch_count, temp_arr,result_sub, level + 1, i)
+        temp_arr[level] = ""
+        ch_count[i] +=1
+
+    
 
 ''' Find all valid IP addresses from combination of number string by BackTracking  
     reference - Leetcode discussion  
@@ -184,6 +224,12 @@ def main():
     print "\n----------------Backtracking --> All permutation of repeated character string -----------\n"
     
     allPermutationOfRepeatedCharString('AABC')
+    
+    # Subset of given string
+    print
+    print "\n----------------Backtracking --> All Subset of  string -----------------------------------\n"
+    
+    print allSubSetOfString("AABC")
 
     print
     print"\n------------print All possible valid ip addresses -----------------------\n"
@@ -204,4 +250,5 @@ def main():
 
 if __name__ == '__main__':
     main()
+    
     
