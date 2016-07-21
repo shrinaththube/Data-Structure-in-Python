@@ -15,16 +15,17 @@ from copy import deepcopy
     3) Postorder traversal - print
     4) Level order traversal - print
     5) Reverse Level order traversal ( Bottom to root approach) - print
-    6) Print boundary elements of tree
-    7) Find if two tress are mirror to each other
-    8) Convert tree into it's mirror tree
-    9) Create new mirror tree of given tree
-   10) Find if two tress are similar to each other
-   11) Find node is exist in Binary Tree or not - iterative solution 
-   12) Find common ancestor of two nodes in Binary Tree
-   13) Count the number of nodes from root to desire node in BT
-   14) Serialize the data of binary tree
-   15) De-serialize the data to create binary tree 
+    6) Spiral Level order traversal (one level from left to right and another from right to left) - print
+    7) Print boundary elements of tree
+    8) Find if two tress are mirror to each other
+    9) Convert tree into it's mirror tree
+   10) Create new mirror tree of given tree
+   11) Find if two tress are similar to each other
+   12) Find node is exist in Binary Tree or not - iterative solution 
+   13) Find common ancestor of two nodes in Binary Tree
+   14) Count the number of nodes from root to desire node in BT
+   15) Serialize the data of binary tree
+   16) De-serialize the data to create binary tree 
 
     ***************************************************************************
 """ 
@@ -117,7 +118,11 @@ class BTOperations(object):
         while st:
             print st.pop().key,
     
-    
+    ''' Spiral Level order traversal (one level from left to right and another from right to left) - print 
+        Print level order traversal in reverse manner that is bottom to up approach  
+        Time complexity - O(n) 
+        Space complexity - O(n)
+    ''' 
     def printInSpiralOrder(self,refNode):
         if refNode == None: return
         stL = [] #stack for print left to right nodes
