@@ -14,6 +14,28 @@ from tree.binaryTree import BTOperations
 from tree.binaryTree import BTNode
 from tree.binaryTree import BTExtraOpeartions
 
+"""
+    ************************* BST Operations ********************************
+    Following problems are covered in this module
+    
+    1) Insert Node in BST
+    2) Create bst using List data set
+    3) Create tree using inorder traversal list and preorder traversal list
+    4) Create tree using inorder traversal list and postorder traversal list.
+    5) Find sum of minimum sum path sum
+    6) Find sum of maximum sum path sum
+    7) Find size of a tree
+    8) Find density of tree
+    9) Sink the odd node to down of tree
+   10) Find if one bst is sub bst of other
+   11) Checks the node is present in Bst or not
+   12) Find nearest ancestor in bst
+   13) Find the minimum distance between two nodes in bst
+   14) Find Kth smallest element in bst 
+
+    ***************************************************************************
+""" 
+
 
 class BstOperations(BTExtraOpeartions):
     '''
@@ -21,6 +43,12 @@ class BstOperations(BTExtraOpeartions):
     '''
     def __init__(self):
         self.root = None
+        
+    ''' Insert Node in BST
+        Construct the BST by inserting element
+        Time complexity - O(log n) 
+        Space complexity - O(1) 
+    '''
     
     def insertNode(self,key,refNode):
         if self.root == None:
@@ -37,6 +65,7 @@ class BstOperations(BTExtraOpeartions):
                     self.insertNode(key, refNode.rChild)
                 else:
                     refNode.rChild = BTNode(key)
+    ''' Create bst using List data set'''
     def createBst(self,list_key):
         if len(list_key) == 0:
             print "List is empty or invalid"
@@ -52,7 +81,11 @@ class BstExtrafunctions(BstOperations):
         self.preIndex = 0
         self.postIndex = 0
         
-    """ Create tree using inorder traversal list and preorder traversal list. Root is first element in preorder list"""
+    ''' Create tree using inorder traversal list and preorder traversal list. 
+        Root is first element in preorder list
+        Time complexity - O(n) - need to check all nodes
+        Space complexity - O(1)
+    '''
     def createTreeFromInPreOrder(self,inList,preList,inStart, inLast):
         
         if inStart > inLast or len(preList) == self.preIndex: return None
@@ -71,7 +104,11 @@ class BstExtrafunctions(BstOperations):
         
         return rootNode
     
-    """ Create tree using inorder traversal list and postorder traversal list. Root is last element in postorder list"""
+    ''' Create tree using inorder traversal list and postorder traversal list. 
+        Root is last element in postorder list
+        Time complexity - O(n) - need to check all nodes
+        Space complexity - O(1)
+    '''
     def createTreeFromInPostOrder(self,inList,postList,inStart,inLast):
         
         if inStart > inLast or len(postList)==self.postIndex: return
@@ -91,7 +128,8 @@ class BstExtrafunctions(BstOperations):
         
         return rootNode
     
-    ''' Returns the sum of min path sum '''
+    ''' Find sum of minimum sum path sum
+        Returns the sum of min path sum '''
     def findMinSumPathSum(self,refNode):
         if refNode == None:
             #print None, #print for debugging 
@@ -118,7 +156,8 @@ class BstExtrafunctions(BstOperations):
         return t """
         return min(self.findMinSumPathSum(refNode.lChild),self.findMinSumPathSum(refNode.rChild))+refNode.key
     
-    ''' Returns the sum of maximum path sum... Similar as abouve minimum sum path's sum'''
+    ''' Find sum of maximum sum path sum
+        Returns the sum of maximum path sum... Similar as abouve minimum sum path's sum'''
     def findMaxSumPathSum(self,refNode):
         if refNode == None: return 0
         
@@ -131,10 +170,13 @@ class BstExtrafunctions(BstOperations):
         return max(self.findMinSumPathSum(refNode.lChild),self.findMaxSumPathSum(refNode.rChild)) + refNode.key
     
         
-    ''' Returns size ( count of nodes ) of tree
+    ''' Find size of a tree
+        Returns size ( count of nodes ) of tree
         Number of technics to find size 
         1) Use the following method - count nodes recursively for left subtree and right subtree and add it with root
         2) Traverse tree using any method (In , pre, post order and make one global or instance variable and increment it. 
+        Time complexity - O(n) - need to check all nodes
+        Space complexity - O(1)
     '''
     def findSizeOfTree(self,refNode):
         #global size #for second method
@@ -147,7 +189,8 @@ class BstExtrafunctions(BstOperations):
         #print size, # print debugging for second method
         return self.findSizeOfTree(refNode.lChild) + self.findSizeOfTree(refNode.rChild) +1 
     
-    ''' Density = (height of tree/size of tree) 
+    ''' Find density of tree
+        Density = (height of tree/size of tree) 
         1) Can call separate two functions as per following method and calculate density
         2) Can calculate size making size variable global and calculate at calling end
         Advantage of second approach is - do not need to traverse tree twice
@@ -156,8 +199,11 @@ class BstExtrafunctions(BstOperations):
         if refNode == None: return 0
         return (self.findHeightOfTree(refNode)/self.findSizeOfTree(refNode))
     
-    '''GeeksforGeeks problem 
+    '''GeeksforGeeks problem
+        Sink the odd node to down of tree
         pushing odd keys down towards leaf of tree and making even keys parents
+        Time complexity - O(n) - need to check all nodes
+        Space complexity - O(1)
     '''
     def sinkOddNodesInBT(self,refNode):
         if refNode == None: return
@@ -179,7 +225,11 @@ class BstExtrafunctions(BstOperations):
         self.sinkOddNodesInBT(refNode.rChild)    
     
     
-    ''' Finds the root1 Bst contains all nodes as per the root 2 Bst '''
+    ''' Find if one bst is sub bst of other
+        Finds the root1 Bst contains all nodes as per the root 2 Bst 
+        Time complexity - O(n) - need to check all nodes
+        Space complexity - O(1)
+    '''
     def areContainsAllNodes(self,root1,root2):
         if root1 == None and root2 == None: return True
         elif root1 != None and root2 == None: return True # Check it for below aswell
@@ -188,7 +238,11 @@ class BstExtrafunctions(BstOperations):
         
         return self.areContainsAllNodes(root1.lChild,root2.lChild) and self.areContainsAllNodes(root1.rChild,root2.rChild) 
     
-    ''' Finds the is root2 Bst is sub bst of root1 Bst''' 
+    ''' Find if one bst is sub bst of other
+        Finds the is root2 Bst is sub bst of root1 Bst
+        Time complexity - O(n) - need to check all nodes
+        Space complexity - O(1)
+    ''' 
     def isItSubBst(self,root1, root2):
         if root1 == None or root2 == None: return False
         refNode1 = root1
@@ -200,7 +254,10 @@ class BstExtrafunctions(BstOperations):
                 refNode1 = refNode1.rChild
         return self.areContainsAllNodes(refNode1, root2)   
     
-    ''' Checks the nodes is present in Bst or not Time complexity O(log n)'''
+    ''' Checks the node is present in Bst or not 
+        Time complexity - O(log n)
+        Space complexity - O(1)
+    '''
     def isNodePresentInBst(self,root,refNode):
         if root == None: return False
         while root != None:
@@ -212,42 +269,35 @@ class BstExtrafunctions(BstOperations):
         
         return False
                  
-    ''' Find the neareast ancestor in bst '''
+    ''' Find nearest ancestor in bst
+        Find the nearest ancestor in bst 
+        Time complexity - O(log h) - Assuming both nodes are present in bst
+        Space complexity - O(1)
+        '''
     def findLowestCommonAncestor(self,root,refNode1, refNode2):
         if root == None: return None
         # print root.key, refNode1.key, refNode2.key
         if refNode1.key == refNode2.key and refNode2.key == root.key:
             return refNode1
-        elif (refNode1.key < root.key and refNode2.key >= root.key)or (refNode1.key >= root.key and refNode2.key < root.key):
+        
+        elif (refNode1.key < root.key and refNode2.key >= root.key) or (refNode1.key >= root.key and refNode2.key < root.key):
             if self.isNodePresentInBst(root, refNode1) and self.isNodePresentInBst(root, refNode2):
                 return root
             else: 
                 print"Node is not present in tree"
                 return None
+        
         elif refNode1.key < root.key and refNode2.key < root.key:
             return self.findLowestCommonAncestor(root.lChild, refNode1, refNode2)
+        
         elif refNode1.key >=  root.key and refNode2.key >=  root.key:
             return self.findLowestCommonAncestor(root.rChild, refNode1, refNode2)
     
-    ''' Count the number of nodes from root to desire node '''    
-    def numberOfNodesUpToDesireNode(self,root,refNode):
-        if root == None: return 0
-        elif root.key == refNode.key:
-            return 1
-        elif root.lChild == None:
-            node_count = self.numberOfNodesUpToDesireNode(root.rChild, refNode)
-            if node_count == 0: return 0 
-            else: return  node_count+ 1
-        elif root.rChild == None:
-            node_count = self.numberOfNodesUpToDesireNode(root.lChild, refNode)
-            if node_count == 0: return 0
-            else:  return node_count + 1
-        final_count = max( self.numberOfNodesUpToDesireNode(root.lChild, refNode) , self.numberOfNodesUpToDesireNode(root.rChild, refNode) )
-        # This is because if the node is not present at all in tree then value should return 0
-        if final_count == 0: return 0
-        else: return final_count + 1    
     
-    ''' Find the minimum distance between two nodes in bst'''  
+    ''' Find the minimum distance between two nodes in bst
+        Time Complexity - O(log h)
+        Space complexity - O(1)
+    '''  
     def findMinmumDistanceOfTwoNodesInBst(self,root,refNode1,refNode2):
         if root == None: 
             print "Tree is not formed yet"
@@ -296,7 +346,9 @@ tree5.root = tree5.createFullBinTreeFromPrePostOrder(preL, postL, 1, len(postL)-
 tree5.displayTree(tree5.root)
 '''
         
-        
+
+
+''' For this proble need to create new type of tree that has one number of left nodes count'''        
 class BstNodeAugmented(BTNode):
     
     def __init__(self,key,lNodes=1):
@@ -304,7 +356,7 @@ class BstNodeAugmented(BTNode):
         self.lNodes = lNodes
 
 class BstAugmented(BstExtrafunctions):
-    ''' Find Kth smallest element - This method tkaes
+    ''' Find Kth smallest element in bst - This method tkaes
         Time Complexity - O(log h)
         Space - Need to add left node count field while constructing tree''' 
     def findKthSmallestElement(self,root,k):
@@ -336,7 +388,7 @@ class BstAugmented(BstExtrafunctions):
         self.increamentLNodesValue(root.lChild)
         self.increamentLNodesValue(root.rChild)
      
-    ''' Insert Node in bst with additional left '''
+    ''' Insert Node in bst with additional number of left elements count '''
     def insertNode(self, key, root):
         if self.root == None:
             self.root = BstNodeAugmented(key)
@@ -378,14 +430,22 @@ def main():
     tree1.insertNode(5, tree1.root)
     tree1.insertNode(20, tree1.root)
     BTOperations.displayTree(tree2, tree2.root)
-    BTOperations.displayTree(tree1, tree1.root)
+    #BTOperations.displayTree(tree1, tree1.root)
+   
+    #print in reverse level order
+    #tree2.printLevelOrderReverse(tree2.root)
     
+    print
+    #Print in spiral order
+    tree2.printInSpiralOrder(tree2.root)
+    
+    #'''
     # USe of findMinSumPathSum method
     print "sum = ", tree2.findMinSumPathSum(tree2.root)
     print "Height of tree2 = ", tree2.findHeightOfTree(tree2.root)
     print "size of tree2 = ", tree2.findSizeOfTree(tree2.root)
     print "Density of tree2 = ", tree2.findDensityOfTree(tree2.root)
-    #tree2.sinkOddNodesInBT(tree2.root)
+    tree2.sinkOddNodesInBT(tree2.root)
     BTOperations.displayTree(tree2, tree2.root) 
     # Serialization 
     serialString = tree2.serializationOfBT(tree2.root)
@@ -417,9 +477,14 @@ def main():
     print "\n----------------- Finding ancestor---------------------------- \n "
     node1 = BTNode(2)
     node2 = BTNode(9)
+    #This is recursive method to find ancestor in Binary search Tree easy to use BST property
     ancestorNode = tree4.findLowestCommonAncestor(tree4.root, node1, node2)
     
+    #This is recursive method to find ancestor in Binary Tree
+    ancestor = tree4.findCommonAncestorinBT(tree4.root, node1, node2)
+    
     if ancestorNode: print "Lowest common ancestor - ", ancestorNode.key
+    print "Lowest common ancestor - ", ancestor
     
     # find the distance between two nodes in bst
     print "\n--------------distance between two nodes in bst--------------------------------------\n"
@@ -432,9 +497,10 @@ def main():
     
     BTOperations.displayTree(augmentTree1,augmentTree1.root)
     
+    
     print"Kth smallest element = ", augmentTree1.findKthSmallestElement(augmentTree1.root, 10).key
- 
+    #'''
     
 if __name__ == '__main__':
-    #main()
-    pass
+    main()
+    

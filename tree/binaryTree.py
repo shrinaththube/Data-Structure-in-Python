@@ -4,8 +4,32 @@ Created on Jun 8, 2016
 @author: Shrinath Thube
 '''
 from _collections import deque
-from test._mock_backport import right
 from copy import deepcopy
+
+"""
+    ************************* Binary Tree Operations ***************************
+    Following problems are covered in this module
+    
+    1) Inorder traversal - print
+    2) Preorder traversal - print
+    3) Postorder traversal - print
+    4) Level order traversal - print
+    5) Reverse Level order traversal ( Bottom to root approach) - print
+    6) Print boundary elements of tree
+    7) Find if two tress are mirror to each other
+    8) Convert tree into it's mirror tree
+    9) Create new mirror tree of given tree
+   10) Find if two tress are similar to each other
+   11) Find node is exist in Binary Tree or not - iterative solution 
+   12) Find common ancestor of two nodes in Binary Tree
+   13) Count the number of nodes from root to desire node in BT
+   14) Serialize the data of binary tree
+   15) De-serialize the data to create binary tree 
+
+    ***************************************************************************
+""" 
+
+
 
 class BTNode(object):
     '''
@@ -21,26 +45,42 @@ class BTOperations(object):
     
     def __init__(self):
         self.root = None
-        
+    
+    ''' Inorder traversal - print  
+        Time complexity - O(n) 
+        Space complexity - O(1)
+    '''        
     def printInorder(self,refNode):
         if refNode == None: return
         self.printInorder(refNode.lChild)
         print refNode.key,
         self.printInorder(refNode.rChild)
-    
+   
+    ''' Preorder traversal - print  
+        Time complexity - O(n) 
+        Space complexity - O(1)
+    '''        
     def printPreorder(self,refNode):
         if refNode == None: return
         print refNode.key,
         self.printPreorder(refNode.lChild)
         self.printPreorder(refNode.rChild)
-    
+   
+    ''' Postorder traversal - print  
+        Time complexity - O(n) 
+        Space complexity - O(1)
+    '''        
     def printPostorder(self,refNode):
         if refNode == None: return
         self.printPostorder(refNode.lChild)
         self.printPostorder(refNode.rChild)
         print refNode.key,
-     
-    ''' Print tree in level wise '''   
+    
+    ''' Level order traversal - print  
+        Print tree in level wise 
+        Time complexity - O(n) 
+        Space complexity - O(n)
+    '''        
     def printLevelOrder(self,refNode):
         if refNode == None: return
         que =  [refNode]
@@ -54,7 +94,60 @@ class BTOperations(object):
                     temp_que.append(node.rChild)
             print
             que = temp_que
-     
+
+    ''' Reverse Level order traversal ( Bottom to root approach) - print 
+        Print level order traversal in reverse manner that is bottom to up approach  
+        Time complexity - O(n) 
+        Space complexity - O(n)
+    ''' 
+    def printLevelOrderReverse(self,refNode):
+        if refNode == None: return
+        print "-----------Reverse level order printing---------"
+        st = []
+        que =deque()
+        que.append(refNode)
+        while que:
+            node = que.popleft()
+            if node.rChild != None:
+                que.append(node.rChild)
+            if node.lChild != None:
+                que.append(node.lChild)
+            st.append(node)
+        
+        while st:
+            print st.pop().key,
+    
+    
+    def printInSpiralOrder(self,refNode):
+        if refNode == None: return
+        stL = [] #stack for print left to right nodes
+        stR = [] #stack for print right to left nodes
+        stR.append(refNode)
+        print "-------------Print in spiral order -----------------"
+        while stL or stR:
+            if stL:
+                while stL:
+                    node = stL.pop()
+                    print node.key,
+                    if node.rChild:
+                        stR.append(node.rChild)
+                    if node.lChild:
+                        stR.append(node.lChild)
+            else:
+                while stR:
+                    node = stR.pop()
+                    print node.key,
+                    if node.lChild:
+                        stL.append(node.lChild)
+                    if node.rChild:
+                        stL.append(node.rChild)
+            print ""
+        print "------------------End -----------------------"
+            
+    ''' Print boundary elements of tree  
+        Time complexity - O(n) 
+        Space complexity - O(n)
+    '''        
     def printBoundaryElementsOfTree(self,refNod):
         if refNod == None: 
             print "No tree formed" 
@@ -101,8 +194,12 @@ class BTOperations(object):
         print "******************* End *********************"
         print
     
-    ''' This checks are two tress are mirror to each other Default returns True'''    
     
+    ''' Find if two tress are mirror to each other 
+        This checks are two tress are mirror to each other Default returns True
+        Time complexity - O(n) - check every elements in both tree
+        Space complexity - O(1)
+    '''    
     def isTreeMirror(self,root1,root2):
         if root1 == None and root2 == None: #recursion breaking condition
             #print "Breaking condition - Both none" # intermediate result for debugging
@@ -125,7 +222,11 @@ class BTOperations(object):
         
         return True #Default returns true
     
-    ''' This method make the tree mirror to its original structure '''
+    ''' Convert tree into it's mirror tree 
+        This method make the tree mirror to its original structure
+        Time complexity - O(n) - check every elements in both tree
+        Space complexity - O(1)
+    '''  
     def makeMirrorTree(self,refNode):
         if refNode == None: return # recursion breaking condition
         
@@ -144,7 +245,11 @@ class BTOperations(object):
         self.makeMirrorTree(refNode.lChild) # recursive call to left subtree
         self.makeMirrorTree(refNode.rChild) # recursive call to right subtree
     
-    ''' This will construct new mirror tree without changing original tree'''
+    ''' Create new mirror tree of given tree 
+        This will construct new mirror tree without changing original tree
+        Time complexity - O(n) - check every elements in both tree
+        Space complexity - O(1)
+    '''  
     def createNewMirrorTree(self,refNode):
         if refNode == None: return # breaking condition of recursion
         
@@ -157,15 +262,23 @@ class BTOperations(object):
         rootNode.rChild = self.createNewMirrorTree(refNode.lChild) #recursive call
         
         return rootNode #returns root of new tree
-    
-    ''' Check are two trees similar or not - Default returns true'''
+
+    ''' Find if two tress are similar to each other 
+        Check are two trees similar or not - Default returns true
+        Time complexity - O(n) - check every elements in both tree
+        Space complexity - O(1)
+    '''    
     def areTwoTreeSimilar(self,root1,root2):
         if root1 == None and root2 == None: return True
         if root1 == None or root2 == None: return False
         if root1.key != root2.key: return False
         return self.areTwoTreeSimilar(root1.lChild, root2.lChild) and self.areTwoTreeSimilar(root1.rChild, root2.rChild) 
-    
-    ''' Returns height or depth of tree - longest path between root and leaf'''
+ 
+    ''' Find height of tree 
+        Returns height or depth of tree - longest path between root and leaf
+        Time complexity - O(log h) - calculate for left sub tree and right sub tree
+        Space complexity - O(1)
+    '''    
     def findHeightOfTree(self,refNode):
         if refNode == None: return 0
         elif refNode.lChild == None:
@@ -174,11 +287,86 @@ class BTOperations(object):
             return self.findHeightOfTree(refNode.lChild) + 1
         return max(self.findHeightOfTree(refNode.lChild),self.findHeightOfTree(refNode.rChild))+1
 
+    
+    ''' Find common ancestor of two nodes in Binary Tree 
+        Returns ancestor node 
+        Time complexity - O(n) 
+        Space complexity - O(1)
+    '''
+    # This function handles edge case of if any node is not present in BT
+    def findCommonAncestorinBT(self,root,node1,node2):
+        if root == None: return None
+        if not self.isNodePresentInBT(root, node1): 
+            print "Node is not present - ", node1.key
+            return None
+        if not self.isNodePresentInBT(root, node2): 
+            print "Node is not present - ", node2.key
+            return None
+        return self.RecursionfindCommonAncestor(root, node1, node2)
+
+    # This is main function that find lowest common ancestor of two nodes 
+    def RecursionfindCommonAncestor(self,root,node1,node2):
+        if root == None: return None
+        if root.key == node1.key or root.key == node2.key: return root.key
+        if root.lChild == None and root.rChild == None: return None
+        
+        firstNode = self.RecursionfindCommonAncestor(root.lChild, node1, node2)
+        secondNode = self.RecursionfindCommonAncestor(root.rChild, node1, node2)
+        
+        if firstNode and secondNode: return root.key
+        
+        if firstNode: return firstNode
+        if secondNode: return secondNode
+        
+        return None
+    
+    ''' Find node is exist in Binary Tree or not - iterative solution 
+        Returns True or False
+        Time complexity - O(n) 
+        Space complexity - O(n)
+    '''
+    def isNodePresentInBT(self,root,refNode):
+        if root == None: return False
+        que = deque()
+        que.append(root)
+        while que:
+            node =que.popleft()
+            if node.key == refNode.key: return True
+            if node.lChild: que.append(node.lChild)
+            if node.rChild: que.append(node.rChild)
+        return False
+    
+    ''' Count the number of nodes from root to desire node in BT
+        Time complexity - O(n) Need to find node in BT so need to scan all elements
+        Space complexity - O(1)
+    '''    
+    def numberOfNodesUpToDesireNode(self,root,refNode):
+        if root == None: return 0
+        elif root.key == refNode.key:
+            return 1
+        elif root.lChild == None:
+            node_count = self.numberOfNodesUpToDesireNode(root.rChild, refNode)
+            if node_count == 0: return 0 
+            else: return  node_count+ 1
+        elif root.rChild == None:
+            node_count = self.numberOfNodesUpToDesireNode(root.lChild, refNode)
+            if node_count == 0: return 0
+            else:  return node_count + 1
+        final_count = max( self.numberOfNodesUpToDesireNode(root.lChild, refNode) , self.numberOfNodesUpToDesireNode(root.rChild, refNode) )
+        # This is because if the node is not present at all in tree then value should return 0
+        if final_count == 0: return 0
+        else: return final_count + 1    
+    
 
 class BTExtraOpeartions(BTOperations):
     
-    ''' LeetCodeProblem 
-    serialize all nodes keys in string and send to server. It sends all keys as well as None'''
+    '''  Serialize the data of binary tree 
+        LeetCodeProblem 
+        serialize all nodes keys in string and send to server. It sends all keys as well as None 
+        Returns height or depth of tree - longest path between root and leaf
+        Time complexity - O(n) 
+        Space complexity - O(n)
+    '''    
     def serializationOfBT(self,refNode):
         if refNode == None: return
         height = self.findHeightOfTree(refNode)
@@ -206,12 +394,17 @@ class BTExtraOpeartions(BTOperations):
                 serialList.append("None")
                 serialList.append("None")
                 
-        return (",").join(serialList)     
+        return (",").join(serialList)   
     
+      
     
-    
-    ''' LeetCodeProblem 
-    Try to make reciever as simple as possible. Server should be simple'''    
+    '''  De-serialize the data to create binary tree 
+        LeetCodeProblem 
+        Try to make receiver as simple as possible. Server should be simple 
+        Returns height or depth of tree - longest path between root and leaf
+        Time complexity - O(n) 
+        Space complexity - O(n)
+    '''    
     def deserializationOfBT(self,keys):
         if len(keys) == 0 :return None
         keys = deque(keys.split(","))
