@@ -2,8 +2,8 @@
 
 Various types of problmes are solved from leetcode, geekforgeeks etc..
 
-******************************** backTracking ****************************************
-  ************************* Backtracking ************************************
+******************************** backTracking ****************************************  
+  ************************* Backtracking ************************************  
     Following problems are covered in this module
     
     1) Find all permutation of unique characters string by Backtracking
@@ -13,14 +13,14 @@ Various types of problmes are solved from leetcode, geekforgeeks etc..
     5) Find all valid IP addresses from combination of number string by BackTracking
     6) Find all valid IP addresses from combination of number string by iteration
     
-  ***************************************************************************
-**************************************************************************************
+  ***************************************************************************  
+**************************************************************************************  
 
-******************************** graph ************************************************
-**************************************************************************************
+******************************** graph ************************************************  
+**************************************************************************************  
 
-**************************** leetCodeProblems ********************************
-  ************************* Array Operations ********************************
+**************************** leetCodeProblems ********************************  
+  ************************* Array Operations ********************************  
     Following problems are covered in this module
     
     1) Find the max sum sub array by Kadane's Algorithm
@@ -33,15 +33,15 @@ Various types of problmes are solved from leetcode, geekforgeeks etc..
     8) Find the next high / greater element of every element of array
     9) Find the majority element in given array if any or return None
 
-  ***************************************************************************
-  ************************* Excel *******************************************
+  ***************************************************************************  
+  ************************* Excel *******************************************  
     Following problems are covered in this module
     
     1) Convert excel column letters to integer number
     2) Convert excel column number to letters
     
-  ***************************************************************************
-  ************************* Matrix Operations *******************************
+  ***************************************************************************  
+  ************************* Matrix Operations *******************************  
     Following problems are covered in this module
     
     1) Knapsack Algorithm by recursive naive approach
@@ -50,20 +50,20 @@ Various types of problmes are solved from leetcode, geekforgeeks etc..
     4) Search the element in sorted matrix
     5) Find minimum cost path from left most corner (0,0) to right low corner (last,last) of matrix
   
-  ***************************************************************************
-  ************************* Histogram Area **********************************
+  ***************************************************************************  
+  ************************* Histogram Area **********************************  
     Following problems are covered in this module
     
     1) Find the maximum rectangle area formed by given histogram
     
-  ***************************************************************************
-  ************************* Reservoir Sampling ******************************
+  ***************************************************************************   
+  ************************* Reservoir Sampling ******************************  
     Following problems are covered in this module
     
     1) Return random k samples from large data set
     
-  ***************************************************************************
-  ************************* String Operations *******************************
+  ***************************************************************************  
+  ************************* String Operations *******************************  
     Following problems are covered in this module
     
     1) Finds common characters of two strings
@@ -72,17 +72,17 @@ Various types of problmes are solved from leetcode, geekforgeeks etc..
     4) Wild card match of text string and pattern by iterative
     5) Regular expression match of text string and pattern by Dynamic programming
     
-  ***************************************************************************
-  ************************* Rain water Trapping *****************************
+  ***************************************************************************  
+  ************************* Rain water Trapping *****************************  
     Following problems are covered in this module
     
     1) Solution for Trapping Rain Water problem
     
-  ***************************************************************************
-**************************************************************************************
+  ***************************************************************************  
+**************************************************************************************  
 
-******************************** tree ************************************************
- ************************* BST Operations ***********************************
+******************************** tree ************************************************  
+ ************************* BST Operations ***********************************  
     Following problems are covered in this module
     
     1) Insert Node in BST
@@ -94,14 +94,14 @@ Various types of problmes are solved from leetcode, geekforgeeks etc..
     7) Find size of a tree
     8) Find density of tree
     9) Sink the odd node to down of tree
-   10) Find if one bst is sub bst of other
-   11) Checks the node is present in Bst or not
-   12) Find nearest ancestor in bst
-   13) Find the minimum distance between two nodes in bst
-   14) Find Kth smallest element in bst 
+    10) Find if one bst is sub bst of other
+    11) Checks the node is present in Bst or not
+    12) Find nearest ancestor in bst
+    13) Find the minimum distance between two nodes in bst
+    14) Find Kth smallest element in bst 
 
-  ****************************************************************************
-  ************************* Binary Tree Operations ***************************
+  ****************************************************************************  
+  ************************* Binary Tree Operations ***************************  
     Following problems are covered in this module
     
     1) Inorder traversal - print
@@ -112,17 +112,17 @@ Various types of problmes are solved from leetcode, geekforgeeks etc..
     6) Spiral Level order traversal (one level from left to right and another from right to left) - print
     7) Print boundary elements of tree
     8) Find if two tress are mirror to each other
-    9) Convert tree into it's mirror tree
-   10) Create new mirror tree of given tree
-   11) Find if two tress are similar to each other
-   12) Find node is exist in Binary Tree or not - iterative solution 
-   13) Find common ancestor of two nodes in Binary Tree
-   14) Count the number of nodes from root to desire node in BT
-   15) Serialize the data of binary tree
-   16) De-serialize the data to create binary tree 
+    9) Convert tree into it's mirror tree  
+    10) Create new mirror tree of given tree  
+    11) Find if two tress are similar to each other  
+    12) Find node is exist in Binary Tree or not - iterative solution   
+    13) Find common ancestor of two nodes in Binary Tree  
+    14) Count the number of nodes from root to desire node in BT  
+    15) Serialize the data of binary tree  
+    16) De-serialize the data to create binary tree   
 
-  ***************************************************************************
-************************************************************************************
+  ***************************************************************************  
+************************************************************************************  
 
-******************************** trie ************************************************
+******************************** trie ************************************************  
     
