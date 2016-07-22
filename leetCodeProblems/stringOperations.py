@@ -12,6 +12,7 @@ Created on Jun 16, 2016
     3) Wild card match of text string and pattern by Dynamic programming
     4) Wild card match of text string and pattern by iterative
     5) Regular expression match of text string and pattern by Dynamic programming
+    6) Find minimum distance between two string that needs to edit to match those strings by Dynamic programming
     
     ***************************************************************************
 """ 
@@ -155,8 +156,8 @@ def wildCardMatching(text,pattern):
 '''
     Regular expression match of text string and pattern by Dynamic programming
     --reference - Tushar Roy video YouTube 
-    Time complexity - O(n)
-    Space complexity - O(1)
+    Time complexity - O(n^2)
+    Space complexity - O(n^2)
 
 a*b - b, ab,aab,aaab
 a.b - acb,aab,avb
@@ -205,8 +206,49 @@ def regularExpressionMatchingByDP(text,pattern):
     #print regMat           
     return regMat[-1][-1]
     
+''' 
+    Find minimum distance between two string that needs to edit to match those strings by Dynamic programming
+    --reference - Tushar Roy video YouTube 
+    Time complexity - O(n^2)
+    Space complexity - O(N^2)
 
 
+          a b c d e f g
+        0 1 2 3 4 5 6 7
+      a 1 0 1 2 3 4 5 6
+      s 2 1 1 2 3 4 5 6
+      x 3 2 2 2 3 4 5 6
+      d 4 3 3 3 2 3 4 5
+      e 5 4 4 4 3 2 3 4
+    
+    output --> 4
+'''
+def minEditDistance(str1,str2):
+    if str1 == str2: return 0 # edge case. Best time complexity O(n)
+    #Considering empty string size of matrix more than length of strings 
+    minDistMat = [[None for i in xrange((len(str1) + 1))] for j in xrange((len(str2) + 1))]
+   
+    # 0 row and 0 column consider empty string   
+    for i in xrange(len(str1)+1):
+        minDistMat[0][i] = i
+    
+    for i in xrange(len(str2)+1):
+        minDistMat[i][0] = i
+    
+    for i in xrange(1,len(minDistMat)):
+        for j in xrange(1,len(minDistMat[0])):
+            if str2[i-1] == str1[j-1]:
+                minDistMat[i][j] = minDistMat[i-1][j-1]
+            else:
+                minDistMat[i][j] = min(minDistMat[i][j-1],minDistMat[i-1][j-1],minDistMat[i-1][j]) + 1
+        
+    #for i in xrange(len(minDistMat)):
+    #    print minDistMat[i]
+    return minDistMat[-1][-1]
+        
+        
+        
+#"""
 def main():
     
     # Find intersection of two string 
@@ -227,6 +269,10 @@ def main():
     print 
     print "Regex match -> ", regularExpressionMatchingByDP("aabec", "a*b.c")
     print "Regex match -> ", regularExpressionMatchingByDP("xaabec", "xa*b.c")
+    
+    #minimum edit distance method
+    print minEditDistance("abcdefg", "asxde")
 
 if __name__ == '__main__':
     main()
+    #"""
