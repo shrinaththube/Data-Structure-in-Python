@@ -18,7 +18,7 @@ Created on Jul 6, 2016
     Space complexity - O(n)
 '''
 
-def maxRecatangleAre(histo):
+def maxRecatangleArea(histo):
     if len(histo) <1: return
     st = list()
     st.append(0)
@@ -35,7 +35,7 @@ def maxRecatangleAre(histo):
                 current_area = histo[pos] * i
             else:
                 current_area = histo[pos] * (i - st[-1] -1 )
-                print pos, current_area,histo[pos] , i,  st[-1] 
+                #print pos, current_area,histo[pos] , i,  st[-1] 
             st.append(i)    
         if current_area > result_area:
             result_area = current_area
@@ -43,27 +43,26 @@ def maxRecatangleAre(histo):
         # print i,st, current_area, result_area
         i+=1
      
-    print len(st)   
+    #print len(st)   
     while st:
         pos = st.pop()
-        print pos,
+        #print pos,
         if len(st) < 1:
             current_area = histo[pos] * i
-            print current_area
+            #print current_area
         else:
             current_area = histo[pos] * (i - st[-1] -1)
-            print current_area ,histo[pos] , i,  st[-1]
+            #print current_area ,histo[pos] , i,  st[-1]
                 
         if current_area > result_area:
             result_area = current_area
             
-    return result_area    
+    return result_area  
+      
 
 def main():    
     histo = [1,2,1,3,2,4]
-    #histo = [1,2,3,2]
-    histo = [1,1,1,1]
-    print maxRecatangleAre(histo)
+    print "max area = ", maxRecatangleArea(histo)
     
 if __name__  =='__main__':
     main()

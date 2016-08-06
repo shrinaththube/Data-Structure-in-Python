@@ -13,10 +13,13 @@ Created on Jun 16, 2016
     4) Wild card match of text string and pattern by iterative
     5) Regular expression match of text string and pattern by Dynamic programming
     6) Find minimum distance between two string that needs to edit to match those strings by Dynamic programming
+    7) Find if two strings are anagram
+    8) Print anagram strings from k strings list 
     
     ***************************************************************************
 """ 
 
+from collections import OrderedDict
 
 ''' Finds common characters of two strings 
     Time complexity - O(n)
@@ -212,7 +215,6 @@ def regularExpressionMatchingByDP(text,pattern):
     Time complexity - O(n^2)
     Space complexity - O(N^2)
 
-
           a b c d e f g
         0 1 2 3 4 5 6 7
       a 1 0 1 2 3 4 5 6
@@ -245,7 +247,62 @@ def minEditDistance(str1,str2):
     #for i in xrange(len(minDistMat)):
     #    print minDistMat[i]
     return minDistMat[-1][-1]
+
+''' Find if two strings are anagram 
+    Add the ASCII value of each character of string and if two strings have same value then they are anagram 
+    Time complexity - O(n)
+    Space complexity - O(1)
+'''
+
+def isAnagram(str1,str2):
+    #strip the strings from left and right
+    str1 = str1.strip(' \t\n\r')
+    str2 = str2.strip(' \t\n\r')
+    if len(str1) != len(str2): return False
+    if str1 == str2 : return True
+    
+    ''' # Normal way 
+    str1_value = 0
+    str2_value = 0
+    for  ch in str1:
+        str1_value += ord(ch)
+    
+    for ch in str2:
+        str2_value += ord(ch)
+    '''    
+    # pythonic way    
+    str1_value = sum(ord(ch)  for ch in str1)
+    str2_value = sum(ord(ch)  for ch in str2)
+    #print str1_value,str2_value
+    return str1_value == str2_value
+
+
+''' Print anagram strings from k strings list 
+    Add the ASCII value of each character of string and if two strings have same value then they are anagram
+    and keep key as ASCII value and strings list as a value 
+    Time complexity - O(nk)
+    Space complexity - O(1)
+    
+    Example - 
+     ["abc","cba","rat","cat","tar","tea","act"]
+'''
+def printAnagramStrings(list_string):
+    if not list_string: return
+    ana_dict = OrderedDict() # to maintain insertion order
+    for string in list_string:
+        str_value = sum(ord(ch) for ch in string) # calculate the asci value of string
+        if not str_value in ana_dict:
+            ana_dict[str_value] = [string]
+        else:
+            ana_dict[str_value].append(string)
         
+    for key in ana_dict:
+        #print ana_dict[key]
+        for ele in ana_dict[key]:
+            print ele,
+        print 
+
+    
         
         
 #"""
@@ -270,8 +327,19 @@ def main():
     print "Regex match -> ", regularExpressionMatchingByDP("aabec", "a*b.c")
     print "Regex match -> ", regularExpressionMatchingByDP("xaabec", "xa*b.c")
     
+    print "----------------------------------------------------------"
     #minimum edit distance method
-    print minEditDistance("abcdefg", "asxde")
+    print "minimum distance - ",minEditDistance("abcdefg", "asxde")
+    
+    print "-----------------------------------------------------------"
+    # Find strings ara anagram
+    print "aab and aba are anagram - ",isAnagram("aab", " aba")
+    
+    print "-"*60
+    #print anagram string from given list
+    print "Following strings in row are anagram"
+    printAnagramStrings(["abc","cba","rat","cat","tar","tea","act"])
+
 
 if __name__ == '__main__':
     main()

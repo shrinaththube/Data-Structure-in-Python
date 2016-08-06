@@ -16,6 +16,8 @@ Created on Jun 26, 2016
     7) Find minimum jumps to reach at the end of array by Dynamic Programming
     8) Find the next high / greater element of every element of array
     9) Find the majority element in given array if any or return None
+   10) Merge K sorted arrays in O(nlogk)
+   11) Merge K sorted arrays by iterative way
 
     ***************************************************************************
 """ 
@@ -48,8 +50,6 @@ def findMaxSumSubArray(arr):
 
     #print "start ->",start,"end ->", end,"sub array -> ", arr[start:end+1],global_max
     return (arr[start:end+1],global_max)
-        
-        
 
 
 ''' Find any peek element in given unsorted array or list. 
@@ -151,8 +151,8 @@ def findLongesIncreasingSubsequence(arr):
     position = inc_sub[maxLength]
     #print position, arr[6]
     for j in xrange(maxLength):
-       # print arr[position]
-       # result.append(arr[position])
+        # print arr[position]
+        # result.append(arr[position])
         result = [arr[position]] + result
         position = parent[position]
         
@@ -163,8 +163,6 @@ def findLongesIncreasingSubsequence(arr):
     Time complexity - O(n^2)
     Space -> O(2n) -> O(n)
 '''
-
-
 def findMaxSumLongIncSubSeq(arr):
     if len(arr) <1:
         return
@@ -197,6 +195,7 @@ def findMaxSumLongIncSubSeq(arr):
     
     return result[::-1]
 
+
 ''' Minimum jumps to reach at end of array
     Ladder and stairs approach in Linear time
     Time complexity - O(n) 
@@ -221,11 +220,11 @@ def minHopToEndOfArr(arr):
         i+=1
     return jump
 
+
 ''' Minimum jumps to reach at the end of array by Dynamic Programming
     Time complexity - O(n^2) 
     space complexity - O(n)
     '''
-
 def minHopToEndOfArrByDP(arr):
     if len(arr)<1:return
     if arr[0] < 1: return None
@@ -300,7 +299,90 @@ def findMajorityElement(arr):
         return None
 
 
+''' Merge K sorted arrays in O(nlogk)
+    Used merge sort approach
+    Time - O(nlogk)
+    Space - O(n)
+'''
 
+def mergeKArrays(listOfArray):
+    if not listOfArray:
+        return
+    #print "Now in mergeKArray"
+    return mergeSortPartion(listOfArray, 0, len(listOfArray)-1)
+    
+def mergeSortPartion(listOfArray,start,end):
+    if start > end: return None
+    if start == end: return listOfArray[start]
+    elif start < end:
+        mid = (start + end) / 2
+            
+        leftPart = mergeSortPartion(listOfArray, start, mid)
+        #print "leftpart -->", leftPart
+        rightPart = mergeSortPartion(listOfArray, mid + 1, end)
+        #print "rightpart -->",rightPart
+            
+        return merge(leftPart,rightPart)
+    
+def merge(leftPart, rightPart):
+    #print "in merge"
+    if len(leftPart)<1 or len(rightPart)<1: return None
+    i = 0 
+    j = 0
+    auxArray = []
+    while i<len(leftPart) and j<len(rightPart):
+        if leftPart[i] < rightPart[j]:
+            auxArray.append(leftPart[i])
+            i+=1
+        else:
+            auxArray.append(rightPart[j])
+            j+=1
+        
+    if i<len(leftPart):
+        auxArray+=leftPart[i:]
+    if j<len(rightPart):
+        auxArray+=rightPart[j:]
+    #print "auxarray -> ",auxArray
+    return auxArray
+
+'''  Merge K sorted arrays
+    Used iterative way. Merged one by one
+    Time - O(nk)
+    Space - O(n)
+    
+    example - 
+          l1 &2 = 1,2,4,5,6,7,8,9,9,10,13
+                   = 1,2,3,4,5,6,6,7,8,9,9,10,11,13,14
+                    = 1,2,3,4,5,6,6,7,7,8,9,9,10,11,12,13,13,14
+    
+'''
+
+def mergeKArrayByIterative(listOfArray):
+    mergeL =[]
+    for l in listOfArray:
+        if len(mergeL) <1 :
+            mergeL = l
+            continue
+        mInd = 0 
+        lInd = 0
+        newMerge = []
+        while mInd < len(mergeL) and lInd < len(l):
+            if mergeL[mInd ] < l[lInd]:
+                newMerge.append( mergeL[mInd ] )
+                mInd +=1
+            else:
+                newMerge.append( l[lInd] )
+                lInd +=1
+        if mInd < len(mergeL):
+            newMerge += mergeL[mInd:]
+    
+        if  lInd < len(l):
+            newMerge += l[lInd:]
+        mergeL = newMerge        
+    
+    return mergeL
+
+#"""
 def main():
     
     # Finding max sum sub array
@@ -342,6 +424,26 @@ def main():
     numbers = [1,2,2,3,2,4,2,2,1,1,2,3]
     print "Majority element in given array ->", findMajorityElement(numbers)
 
+    # merge k sorted arrays    
+    '''
+              l1 &2 = 1,2,4,5,6,7,8,9,9,10,13
+                       = 1,2,3,4,5,6,6,7,8,9,9,10,11,13,14
+                        = 1,2,3,4,5,6,6,7,7,8,9,9,10,11,12,13,13,14
+    '''
+    
+    l1 = [1,5,9,13]      
+    l2 = [2,4,6,7,8,9,10]       
+    l3 = [3,6,11,14]               
+    l4 = [7,8,12,13]
+    
+    kList = [l1,l2,l3,l4]
+    print "Merge k list --> " , kList
+    print "-----------merge by merge sorting method-----------------------"
+    print mergeKArrays(kList)
+    print "-----------merge by iterative method----------------------------"
+    print mergeKArrayByIterative(kList)
+
 
 if __name__ == '__main__':
     main()
+    #"""
